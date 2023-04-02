@@ -218,6 +218,13 @@ h2 {
 	text-overflow: ellipsis;
 }
 
+.wrapperLogin {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
 .wrapper {
 	position: relative;
 	width:400px;
@@ -229,11 +236,16 @@ h2 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/*overflow: hidden;*/
-	transition: height .2s ease;
+	overflow: hidden;
+	transform: scale(0);
+	transition: transform .5 ease, height .2s ease;
 }
 
-.wrapper .active {
+.wrapper.active-popup {
+	transform: scale(1);
+}
+
+.wrapper.active {
 	height: 520px;
 }
 
@@ -242,19 +254,26 @@ h2 {
 	padding: 40px;
 }
 
-.wrapper .login {
-	#display: none;
+.wrapper .form-box.login {
+	transition: transform .18s ease;
+	transform: translateX(0);
 }
 
-.wrapper .active .login {
-	position: absolute;
-	transition:translateX(-400px);
+.wrapper.active .form-box.login {
+	transition: none;
+	transform:translateX(-400px);
 	
 }
 
-.wrapper .register{
+.wrapper .form-box.register{
 	position: absolute;
+	transition: none;
 	transform: translateX(400px);
+}
+
+.wrapper.active .form-box.register {
+	transition:transform .18s ease;
+	transform: translateX(0);
 }
 
 .wrapper .icon-close {
@@ -275,7 +294,7 @@ h2 {
 .form-box h2 {
 	font-size:2em;
 	color: #162938;
-	   text-align: center;
+	text-align: center;
 }
 
 .input-box {

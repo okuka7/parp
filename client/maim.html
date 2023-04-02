@@ -30,7 +30,7 @@
 				<div class="menu">
 					<ul>
 						<li><a href="#">회원가입</a></li>
-						<li><a href="#">로그인</a></li>
+						<li class="btnLogin-popup"><a href="#">로그인</a></li>
 						<li><a href="#">캘린더</a></li>
 						<li><a href="#">찜한 목록</a></li>
 						<li><a href="#">호스트에게 메세지 보내기</a></li>
@@ -46,7 +46,7 @@
 					window.addEventListener('click',function(e){
 					if(!btn.contains(e.target))toggleMenu.classList.remove('active');
 							});
-				}	
+				}
 			</script>
 		</header>
 	</div>
@@ -127,6 +127,7 @@
 			</article>
 		</div>
 	</div>
+	<div class="wrapperLogin">
 	<div class="wrapper">
 		<span class="icon-close">
 			<ion-icon name="close"></ion-icon>
@@ -151,7 +152,7 @@
 				<button type="submit" class="btn">Login</button>
 				<div class="login-register">
 					<p>아이디가 없으신가요?
-					<a href="#" clas="register-link">회원가입</a></p>
+					<a href="#" class="register-link">회원가입</a></p>
 				</div>
 			</form>
 		</div>	
@@ -179,10 +180,11 @@
 				<button type="submit" class="btn">Register</button>
 				<div class="login-register">
 					<p>이미 아이디가 있으신가요?
-					<a href="#" clas="logdin-link">Login</a></p>
+					<a href="#" class="login-link">Login</a></p>
 				</div>
 			</form>
 		</div>
+	</div>
 	</div>
 	<script src="script.js"></script>
 </body>
