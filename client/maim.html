@@ -5,7 +5,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<script src="parp.js"></script>
 	<title>파프</title>
 </head>
 <body>
@@ -47,7 +46,7 @@
 					window.addEventListener('click',function(e){
 					if(!btn.contains(e.target))toggleMenu.classList.remove('active');
 							});
-				}
+				}	
 			</script>
 		</header>
 	</div>
@@ -155,7 +154,38 @@
 					<a href="#" clas="register-link">회원가입</a></p>
 				</div>
 			</form>
+		</div>	
+		<div class="form-box register">
+			<h2>회원가입</h2>
+			<form action="#">	
+				<div class="input-box">
+					<span class="icon"></span>
+					<input type="text" required>
+					<label>Username</label>
+				</div>
+				<div class="input-box">
+					<span class="icon"></span>
+					<input type="email" required>
+					<label>Email</label>
+				</div>
+				<div class="input-box">
+					<span class="icon"></span>
+					<input type="password" required>
+					<label>password</label>
+				</div>
+				<div class="remember-forgot">
+					<label><input type="checkbox">이용약관에 동의합니다.</label>
+				</div>
+				<button type="submit" class="btn">Register</button>
+				<div class="login-register">
+					<p>이미 아이디가 있으신가요?
+					<a href="#" clas="logdin-link">Login</a></p>
+				</div>
+			</form>
 		</div>
 	</div>
+	<script src="script.js"></script>
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.ems.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"</script>
 </body>
 </html>
