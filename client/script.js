@@ -16,13 +16,10 @@ btnPopup.addEventListener('click', ()=> {
 window.addEventListener('click',function(e){
 	if(btnPopup.contains(e.target)){
 		wrapper.classList.add('active-popup')
-		console.log("dd");
 	}
 	else if(wrapper.contains(e.target)){
-		console.log("dd")
 	}
 	else{
-		console.log("aa");
 		wrapper.classList.remove('active-popup');
 	}
 });
