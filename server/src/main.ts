@@ -1,28 +1,15 @@
-import secureSession from '@fastify/secure-session';
 import { NestFactory } from '@nestjs/core';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
+import { PrismaService } from './common/prisma/prisma.service';
+import { initSession } from './lib/session';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({
-      logger: true,
-    }),
-  );
-  await app.register(secureSession, {
-    secret: 'asdlkfjhaslkdjghkljcxzvnklndasklfj',
-    salt: 'asdldsakljhzxc',
-    cookie: {
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      maxAge: 3600000,
-    },
-  });
+  const app = await NestFactory.create(AppModule);
+  initSession(app);
+
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
+
   await app.listen(3000);
 }
 bootstrap();

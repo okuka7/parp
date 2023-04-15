@@ -13,8 +13,8 @@ datasource db {
 model User {
   id          Int        @id @default(autoincrement())
   email       String     @unique
-  name        String?
-  phoneNumber String?
+  name        String
+  phoneNumber String
   password    String
   role        Role       @default(GUEST)
   createdAt   DateTime   @default(now())
