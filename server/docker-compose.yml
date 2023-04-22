@@ -33,5 +33,4 @@ services:
       - '3000:3000'
     command: pnpm start:migrate:prod
     volumes:
-      - ./:/app/
       - /app/node_modules

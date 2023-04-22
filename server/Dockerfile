@@ -37,6 +37,6 @@ WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 RUN pnpx prisma generate
-RUN pnpm run build
+RUN pnpm build
 
 EXPOSE 3000
