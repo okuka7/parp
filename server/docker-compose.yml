@@ -30,7 +30,7 @@ services:
       - postgres
       - redis
     ports:
-      - '3000:3000'
+      - '8080:8080'
     command: pnpm start:migrate:prod
     volumes:
       - /app/node_modules

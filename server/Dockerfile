@@ -39,4 +39,4 @@ COPY . .
 RUN pnpx prisma generate
 RUN pnpm build
 
-EXPOSE 3000
+EXPOSE 8080
