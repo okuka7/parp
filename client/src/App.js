@@ -206,6 +206,11 @@ function App() {
 	  			</div>
 	  		</div>
 		</div>
+	  <div className="footer">
+	  	<div className="footInbox">
+	  		<p></p>
+	  	</div>
+	  </div>
 	</div>
   );
 }
@@ -236,17 +241,18 @@ function App() {
 	function openModal(){
 	const wrapper = document.querySelector('.wrapperLog');
 	const btnPopup = document.querySelector('.btnLogin-popup');
+	const Rwrapper = document.querySelector('.wrapper')
 
 	document.querySelector('.wrapperLog').classList.add('active-popup');
 	window.addEventListener('click', function(e){
 		if(btnPopup.contains(e.target)){
 			wrapper.classList.add('active-popup')
-			wrapper.style.display='block'}
+			Rwrapper.style.display='block' }
 		else if(wrapper.contains(e.target)){
 		}
 		else{
 			wrapper.classList.remove('active-popup');
-			wrapper.style.display='none';
+			Rwrapper.style.display='none';
 		}
 	})
 	}
