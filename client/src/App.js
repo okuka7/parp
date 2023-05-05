@@ -17,6 +17,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay]);
 function App() {
   return (
     <div className="container">
+	  <div className="wrapper">
 	  	<div className="header">
 	  		<div className="logo">
 	  			<a href="#"><h1>PARP</h1></a>
@@ -47,7 +48,7 @@ function App() {
 	  			</div>
 	  		</div>
 	  	</div>
-	  <div className="wrapper">
+	  <div className="logInbox">
 	  	<div className="wrapperLog">
 	  		<div className="form-box login">
 	  			<h2>Login</h2>
@@ -149,24 +150,28 @@ function App() {
 	  		<div className="bigList">
 	  			<div className="hotImg">
 	  				<img src={banImg} className="bigOne" />
+	  				<div className="imgText">
+	  					<p className="big-text">힙노타이즈6 Deep</p>
+	  					<p className="big-text-al">홍대 어딘가 알아맞춰 보셈 지하ddddddddddddddddddddddddddddddddddd임</p>
+	  				</div>
 	  			</div>
 	  		</div>
 	  		<div className="smallList">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  				<img src={yard} className="smallIMG" />
 	  			</div>
 	  		</div>
 	  		<div className="smallList">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  				<img src={comm} className="smallIMG" />
 	  			</div>
 	  		</div>
 	  		<div className="smallList listRow">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  			</div>
 	  		</div>
 	  		<div className="smallList listRow">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  			</div>
 	  		</div>
 		</div>
@@ -175,16 +180,16 @@ function App() {
 		</div>
 		<div className="newPlanet">
 	  		<div className="newList">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  				<img src={comm} className="smallIMG"/>
 	  			</div>
 	  		</div>
 	  		<div className="newList">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  			</div>
 	  		</div>
 	  		<div className="newList">
-	  			<div className="hotImg">
+	  			<div className="hotImg imgCenter">
 	  			</div>
 	  		</div>
 		</div>
@@ -206,11 +211,32 @@ function App() {
 	  			</div>
 	  		</div>
 		</div>
-	  <div className="footer">
-	  	<div className="footInbox">
-	  		<p></p>
-	  	</div>
+	  
 	  </div>
+		<div className="footer">
+	  		<div className="footInbox">
+	  			<ul className="inbox-top">
+	  				<li>회사소개</li>
+	  				<li>이용약관</li>
+	  				<li>개인정보처리방침</li>
+	  				<li>청소년보호정책</li>
+	  				<li>위치기반서비스 이용약관</li>
+	  				<li>이용안내</li>
+	  				<li>티켓판매안내</li>
+	  			</ul>
+	  			<div className="inbox-bottom">
+	  				<div className="inbox-left">
+	  					<h1>parp</h1>
+	  				</div>
+	  				<div className="inbox-right">
+	  					<h4 className="footBigText">파프</h4>
+	  					<p>주소 파주 실리콘밸리</p>
+	  					<p>대표 파프보이</p>
+	  					<p>사업자 등록번호 파프</p>
+	  				</div>
+	  			</div>
+	  		</div>
+		</div>
 	</div>
   );
 }
@@ -241,7 +267,7 @@ function App() {
 	function openModal(){
 	const wrapper = document.querySelector('.wrapperLog');
 	const btnPopup = document.querySelector('.btnLogin-popup');
-	const Rwrapper = document.querySelector('.wrapper')
+	const Rwrapper = document.querySelector('.logInbox')
 
 	document.querySelector('.wrapperLog').classList.add('active-popup');
 	window.addEventListener('click', function(e){
@@ -264,7 +290,7 @@ function App() {
 		wrapper.classList.remove('active');
 	}
 	function wrapOpen(){
-		const wrapper = document.querySelector('.wrapper')
+		const wrapper = document.querySelector('.logInbox')
 		wrapper.style.display='block';
 	}
 
