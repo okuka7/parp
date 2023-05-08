@@ -1,21 +1,14 @@
-import { Role } from './role';
-
 export class User {
   constructor(
-    private id: number,
+    private id: string,
     private email: string,
     private name: string,
     private phoneNumber: string,
-    private role: Role,
     private createdAt: Date,
   ) {}
 
-  getId(): number {
+  getId(): string {
     return this.id;
-  }
-
-  getRole(): Role {
-    return this.role;
   }
 
   getName(): string {
@@ -36,7 +29,6 @@ export class User {
       email: this.email,
       name: this.name,
       phoneNumber: this.phoneNumber,
-      role: this.role,
       createdAt: this.createdAt,
     };
   }

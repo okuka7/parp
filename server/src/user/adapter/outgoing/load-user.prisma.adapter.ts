@@ -5,7 +5,7 @@ import { User } from 'src/user/domain/user';
 export class LoadUserPrismaAdapter implements UserLoadPersistencePort {
   constructor(private readonly prisma: PrismaService) {}
 
-  async loadUserById(id: number): Promise<User> {
+  async loadUserById(id: string): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -19,7 +19,6 @@ export class LoadUserPrismaAdapter implements UserLoadPersistencePort {
       user.email,
       user.name,
       user.phoneNumber,
-      user.role,
       user.createdAt,
     );
   }
@@ -38,7 +37,6 @@ export class LoadUserPrismaAdapter implements UserLoadPersistencePort {
       user.email,
       user.name,
       user.phoneNumber,
-      user.role,
       user.createdAt,
     );
   }

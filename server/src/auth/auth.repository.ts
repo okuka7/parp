@@ -12,7 +12,7 @@ export class AuthRepository {
     });
   }
 
-  async findUserById(id: number): Promise<User> {
+  async findUserById(id: string): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -26,7 +26,6 @@ export class AuthRepository {
       user.email,
       user.name,
       user.phoneNumber,
-      user.role,
       user.createdAt,
     );
   }
