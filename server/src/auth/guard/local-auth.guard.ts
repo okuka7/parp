@@ -11,8 +11,11 @@ export class LocalAuthGuard extends AuthGuard('local') {
       const request = context.switchToHttp().getRequest();
       this.logger.log(`User ${request.user.email} is authenticated`);
       await super.logIn(request);
+
+      return true;
     }
 
-    return true;
+    this.logger.log(`User is not authenticated`);
+    return false;
   }
 }
