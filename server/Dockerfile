@@ -27,8 +27,7 @@ RUN npm -g install pnpm
 FROM pnpm AS dependencies
 
 WORKDIR /app
-COPY package.json .
-COPY pnpm-lock.yaml .
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 
 FROM pnpm AS builder
