@@ -1,0 +1,19 @@
+
+
+.cate-category {
+	display:flex;
+	position:relative;
+	width:100%;
+	min-width: 1300px;
+	background-color: black;
+	height: 40px;
+}
+
+.cate-categoList {
+	width: 1200px;
+	min-width: 1200px;
+	background-color:green;
+	height:100%;
+	display:flex;
+	margin:0 auto;
+}

@@ -13,6 +13,10 @@ a:visited, a:hover, a:active {
 	text-decoration: none;
 }
 
+a {
+	color:black;
+}
+
 ul li {
 	list-style: none;
 }
@@ -182,6 +186,7 @@ ul li {
 	display:flex;
 	align-items:center;
 	justify-content:center;
+	height:100%;
 }
 
 .bigOne {
@@ -224,6 +229,7 @@ ul li {
 	float:left;
 	padding:10px 10px 20px 10px;
 	margin:auto;
+	background-color:red;
 }
 
 .listRow {
@@ -257,7 +263,7 @@ ul li {
 }
 
 .hotImg {
-	background-color: white;
+	background-color: green;
 	height: 100%;
 	width: 100%;
 }
