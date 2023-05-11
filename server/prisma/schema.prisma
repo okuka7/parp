@@ -17,7 +17,11 @@ model User {
   phoneNumber String
   password    String
   createdAt   DateTime @default(now())
-  Groups      Group[]
+  group       Member[]
+
+  isDeleted Boolean @default(false)
+
+  @@map("users")
 }
 
 model Group {
@@ -25,5 +29,27 @@ model Group {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  users     User[]
+  member    Member[]
+
+  isDeleted Boolean @default(false)
+
+  @@map("groups")
+}
+
+model Member {
+  userId  String
+  groupId String
+  user    User       @relation(fields: [userId], references: [id])
+  group   Group      @relation(fields: [groupId], references: [id])
+  role    MemberRole @default(MEMBER)
+
+  @@id([userId, groupId])
+}
+
+enum MemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+
+  @@map("Role")
 }

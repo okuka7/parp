@@ -4,6 +4,8 @@ import RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { Redis } from 'ioredis';
 import * as passport from 'passport';
+import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
 export function initSession(app: INestApplication): void {
   const configService = app.get(ConfigService);
@@ -31,6 +33,13 @@ export function initSession(app: INestApplication): void {
         httpOnly: true,
         secure: false,
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      },
+      genid: () => {
+        return crypto
+          .createHash('sha256')
+          .update(uuidv4())
+          .update(crypto.randomBytes(256))
+          .digest('hex');
       },
     }),
   );
