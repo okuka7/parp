@@ -37,6 +37,7 @@ ul li {
 
 .header .logo h1 {
 	font-size:40px;
+	cursor:pointer;
 }
 
 .header .logo {
@@ -229,7 +230,6 @@ ul li {
 	float:left;
 	padding:10px 10px 20px 10px;
 	margin:auto;
-	background-color:red;
 }
 
 .listRow {
@@ -263,7 +263,6 @@ ul li {
 }
 
 .hotImg {
-	background-color: green;
 	height: 100%;
 	width: 100%;
 }
@@ -277,14 +276,36 @@ ul li {
 
 .caPlanet{
 	margin:auto;
-	width: 30%;
-	min-width:1000px;
-	height: 350px;
+	width: 20%;
+	min-width:900px;
+	height: 300px;
 	clear:both;
 	display:flex;
 	justify-content:center;
 	algin-items:center;
+}
+
+.cate-Center {
+	display:flex;
+	justify-content:center;
+	align-items:center;
 	background-color:#eee;
+	border-radius:200px;
+	height:90%;
+	width:90%;
+	margin:auto;
+}
+
+.cate-Center p:hover {
+	color:#FF1493;
+	cursor:pointer;
+}
+
+.cate-Text {
+	color:grey;
+	font-size: 40px;
+	display:flex;
+	align-items:center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -581,3 +602,52 @@ ul li {
 	padding: 10px 20px;
 }
 
+@keyframes slide-fade-in-dropdown-animation {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+.slide-fade-in-dropdown-animation {
+	overflow:hidden;
+}
+
+.slide-fade-in-dropdown > ul {
+	animation: slide-fade-in-dropdown-animation .4s ease;
+}
+
+@keyframes slide-fade-out-dropdown-animation {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(-100%);
+	}
+}
+
+.slide-fade-out-dropdown {
+	overflow: hidden;
+}
+
+.slide-fade-out-dropdown > ul {
+	animation: slide-fade-out-dropdown-animation 0.4s ease;
+	animation-fill-mode:forwards;
+}
+
+.components-dropdown > ul {
+	position:relative;
+	top: 5px;
+	margin-top: 0;
+	margin-bottom: 5px;
+	padding-left: 0;
+	list-style: none;
+}
+
+.drop-button {
+	width:30px;
+	height: 30px;
+	
+}

@@ -9,8 +9,9 @@ export default function Header() {
 		<div className="header">
 			<div 
 				className="logo"
-				onClick={() => navigate('/')}>
-				<a href="#"><h1>PARP</h1></a>
+				>
+				<h1 onClick= {()=> navigate('/')
+				}>PARP</h1>
 			</div>
 			<div className="searchBar">
 				<input type="search" placeholder="FIND PLANET"/>			
@@ -18,7 +19,7 @@ export default function Header() {
 			<div className="menuRoom">
 				<div className="action">
 					<a href="#"><p>내 행사 파프하기</p></a>
-					<div classNmae="menuToggle">
+					<div className="menuToggle">
 						<img src={menuToggle} alt='menu toggle' className="toggleImg" onClick={menuOpen}/>
 					</div>
 					<div className="menu">

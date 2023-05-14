@@ -1,0 +1,49 @@
+.cate-Part {
+	width:55%;
+	height: 300px;
+	min-width:1300px;
+	background-color:pink;
+	margin:0 auto;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+.cate-Text {
+	color:black;
+}
+
+.cate-List {
+}
+
+.drop-menu {
+	width:180px;
+	height: 200px;
+	margin-top:290px;
+	margin-left:-172px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	border: 1px solid #FF69B4;
+	padding:5px;
+}
+
+.drop-menu li {
+	margin:15px;
+	font-size: 40px;
+	cursor:pointer;
+}
+
+.drop-menu-title {
+	margin-left:20px;
+	cursor:pointer;
+	color:#FF69B4;
+}
+
+.cate-List-Text {
+	width:55%;
+	height:300px;
+	min-width:1300px;
+	background-color:green;
+	margin:auto;
+}

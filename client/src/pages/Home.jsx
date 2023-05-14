@@ -7,10 +7,12 @@ import SwiperCore, { Navigation,Pagination, Autoplay } from "swiper"
 import "swiper/css"
 import "swiper/css/navigation"
 import "swiper/css/pagination"
+import { useNavigate } from 'react-router-dom';
 
 SwiperCore.use([Navigation,Pagination,Autoplay]);
 
 export default function Home() {
+	const navigate = useNavigate();
 	return (
 		<div>
 			<div className="slide">
@@ -109,15 +111,45 @@ export default function Home() {
 			</div>
 			<div className="caPlanet">
 				<div className="newList">
-					<div className="hotImg">
+					<div className="hotImg cate-Center">
+						<p 
+							className="cate-Text"
+							onClick={() => navigate('Music/')}
+							>Music</p>
 					</div>
 				</div>
 				<div className="newList">
-					<div className="hotImg">
+					<div className="hotImg cate-Center">
+						<p 
+							className="cate-Text"
+							onClick={() => navigate('Dance/')}
+							>Dance</p>
 					</div>
 				</div>
 				<div className="newList">
-					<div className="hotImg">
+					<div className="hotImg cate-Center">
+						<p 
+							onClick={() => navigate('Art/')}
+							className="cate-Text"
+							>Art</p>
+					</div>
+				</div>
+			</div>
+			<div className="caPlanet">
+				<div className="newList">
+					<div className="hotImg cate-Center">
+						<p 
+							className="cate-Text"
+							onClick={() => navigate('Act/')}
+							>Act</p>
+					</div>
+				</div>
+				<div className="newList">
+					<div className="hotImg cate-Center">
+						<p
+							className="cate-Text"
+							onClick={()=> navigate('Etc/')}
+							>etc.</p>
 					</div>
 				</div>
 			</div>
