@@ -1,10 +1,6 @@
-import { createZodDto } from 'nestjs-zod';
-import { z } from 'nestjs-zod/z';
+import { IsString } from 'class-validator';
 
-const CreateGroupRequestSchema = z.object({
-  name: z.string(),
-});
-
-export class CreateGroupRequestDto extends createZodDto(
-  CreateGroupRequestSchema,
-) {}
+export class CreateGroupRequestDto {
+  @IsString()
+  readonly name: string;
+}

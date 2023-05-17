@@ -1,10 +1,6 @@
-import { createZodDto } from 'nestjs-zod';
-import { z } from 'nestjs-zod/z';
+import { IsUUID } from 'class-validator';
 
-const CreateMemberRequestSchema = z.object({
-  memberIds: z.array(z.string()),
-});
-
-export class CreateMemberRequestDto extends createZodDto(
-  CreateMemberRequestSchema,
-) {}
+export class CreateMemberRequestDto {
+  @IsUUID('4', { each: true, message: 'MemberIds must be an array of UUID v4' })
+  readonly MemberIds: string[];
+}
