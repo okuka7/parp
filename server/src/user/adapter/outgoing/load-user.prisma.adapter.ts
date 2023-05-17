@@ -2,9 +2,10 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { UserLoadPersistencePort } from 'src/user/application/port/outgoing/load-user.port';
 import { User } from 'src/user/domain/user';
 
-export class LoadUserPrismaAdapter implements UserLoadPersistencePort {
-  constructor(private readonly prisma: PrismaService) {}
-
+export class LoadUserPrismaAdapter
+  extends PrismaService
+  implements UserLoadPersistencePort
+{
   async loadUserById(id: string): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { id },
