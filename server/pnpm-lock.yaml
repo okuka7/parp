@@ -43,6 +43,9 @@ dependencies:
   ioredis:
     specifier: ^5.3.1
     version: 5.3.1
+  nestjs-cls:
+    specifier: ^3.3.1
+    version: 3.3.1(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)
   nestjs-zod:
     specifier: ^2.2.0
     version: 2.2.0(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(@nestjs/swagger@6.3.0)(zod@3.21.4)
@@ -4460,6 +4463,17 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /nestjs-cls@3.3.1(@nestjs/common@9.3.12)(@nestjs/core@9.3.12):
+    resolution: {integrity: sha512-8YyXFAtVVEXSrRpXJfOSGYMTSD6WBbNylowneAjwkUFZaw5ff2Q0VyMUcUKZYux6hTO8NFrGlc2AAm0l2WvPXA==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      '@nestjs/common': '> 7.0.0 < 10'
+      '@nestjs/core': '> 7.0.0 < 10'
+    dependencies:
+      '@nestjs/common': 9.3.12(reflect-metadata@0.1.13)(rxjs@7.8.0)
+      '@nestjs/core': 9.3.12(@nestjs/common@9.3.12)(@nestjs/platform-express@9.3.12)(reflect-metadata@0.1.13)(rxjs@7.8.0)
+    dev: false
 
   /nestjs-zod@2.2.0(@nestjs/common@9.3.12)(@nestjs/core@9.3.12)(@nestjs/swagger@6.3.0)(zod@3.21.4):
     resolution: {integrity: sha512-3oMPiqDY6NLH49BcbdllnhIqtBKpuqHtlhxyHdY6NLeM+dmVJMs3WCugrPBqDBTYXQF8hQCGnOrd/1VLdMa5zg==}
