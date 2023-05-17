@@ -7,10 +7,9 @@ import { Member } from 'src/group/domain/member';
 import { DatabaseException } from 'src/lib/exception/database.exception';
 
 export class GroupPrismaAdapter
+  extends PrismaService
   implements LoadGroupPort, CreateGroupPort, UpdateGroupPort
 {
-  constructor(private readonly prisma: PrismaService) {}
-
   public async findGroup(id: string): Promise<Group> {
     const group = await this.prisma.group.findUnique({
       where: { id },
@@ -31,7 +30,7 @@ export class GroupPrismaAdapter
     const group = await this.prisma.group.findUnique({
       where: { id },
       include: {
-        member: true,
+        members: true,
       },
     });
 
@@ -42,7 +41,7 @@ export class GroupPrismaAdapter
     return new Group({
       id: group.id,
       name: group.name,
-      member: group.member.map((member) => {
+      member: group.members.map((member) => {
         return new Member({
           id: member.userId,
           role: member.role,
@@ -57,7 +56,7 @@ export class GroupPrismaAdapter
       data: {
         id: group.getId(),
         name: group.getName(),
-        member: {
+        members: {
           create: {
             userId: owner.getId(),
             role: owner.getRole(),
@@ -72,7 +71,7 @@ export class GroupPrismaAdapter
       where: { id: group.getId() },
       data: {
         name: group.getName(),
-        member: {
+        members: {
           upsert: group.getMembers().map((member) => ({
             where: {
               userId_groupId: {
@@ -97,7 +96,7 @@ export class GroupPrismaAdapter
     await this.prisma.group.update({
       where: { id },
       data: {
-        isDeleted: true,
+        isDeleted: new Date(),
       },
     });
   }

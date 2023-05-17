@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Transactionl } from 'src/common/decorator/transaction.decorator';
 import { ManageMemberUsecase } from '../port/incoming/manage-member.usecase';
 import { CreateMemberPort } from '../port/outgoing/create-member.port';
 import { DeleteMemberPort } from '../port/outgoing/delete-member.port';
@@ -30,6 +31,7 @@ export class ManageMemberService implements ManageMemberUsecase {
     await this.updateMemberPort.updateMember(groupId, member);
   }
 
+  @Transactionl()
   public async transferOwnership(
     groupId: string,
     memberId: string,
