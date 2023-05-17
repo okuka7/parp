@@ -11,6 +11,12 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
+    "paths": {
+      "@lib/*": ["./src/lib/*"],
+      "@common/*": ["./src/common/*"],
+      "@auth/*": ["./src/auth/*"],
+      "@root/*": ["./src/*"]
+    },
     "skipLibCheck": true,
     "strictNullChecks": true,
     "noImplicitAny": true,

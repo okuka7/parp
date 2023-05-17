@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { MemberRole } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaService } from 'src/common/prisma/prisma.service';
@@ -9,16 +8,14 @@ import { UpdateMemberPort } from 'src/group/application/port/outgoing/update-mem
 import { Member } from 'src/group/domain/member';
 import { DatabaseException } from 'src/lib/exception/database.exception';
 
-@Injectable()
 export class MemberPrismaAdapter
+  extends PrismaService
   implements
     CreateMemberPort,
     UpdateMemberPort,
     LoadMemberPort,
     DeleteMemberPort
 {
-  constructor(private readonly prisma: PrismaService) {}
-
   public async findMember(groupId: string, memberId: string): Promise<Member> {
     const member = await this.prisma.member.findUnique({
       where: {

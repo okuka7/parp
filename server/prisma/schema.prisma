@@ -11,45 +11,148 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  name        String
-  phoneNumber String
-  password    String
-  createdAt   DateTime @default(now())
-  group       Member[]
+  id String @id @default(uuid()) @db.Uuid
 
-  isDeleted Boolean @default(false)
+  email       String    @unique @db.VarChar(255)
+  name        String    @db.VarChar(255)
+  phoneNumber String    @unique @db.VarChar(25)
+  password    String    @db.VarChar(255)
+  role        UserRole  @default(USER)
+  lastLogin   DateTime?
+
+  tickets Ticket[]
+  groups  Member[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted DateTime?
 
   @@map("users")
 }
 
-model Group {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  member    Member[]
+enum UserRole {
+  ADMIN
+  USER
+}
 
-  isDeleted Boolean @default(false)
+model Group {
+  id   String @id @default(uuid()) @db.Uuid
+  name String @db.VarChar(255)
+
+  parties Party[]
+  members Member[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted DateTime?
 
   @@map("groups")
 }
 
+model Account {
+  groupId String @id @db.Uuid
+
+  bankName      String @db.VarChar(255)
+  accountNumber String @db.VarChar(255)
+  depositorName String @db.VarChar(255)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted DateTime?
+}
+
 model Member {
-  userId  String
-  groupId String
+  userId  String     @db.Uuid
+  groupId String     @db.Uuid
   user    User       @relation(fields: [userId], references: [id])
   group   Group      @relation(fields: [groupId], references: [id])
   role    MemberRole @default(MEMBER)
 
   @@id([userId, groupId])
+  @@map("members")
 }
 
 enum MemberRole {
   OWNER
   ADMIN
   MEMBER
+}
 
-  @@map("Role")
+model Party {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(255)
+  description String
+  notes       String
+  address     String   @db.VarChar(255)
+  date        DateTime
+  tiketLimit  Int?
+
+  startSaleAt DateTime?
+
+  group   Group         @relation(fields: [groupId], references: [id])
+  groupId String        @db.Uuid
+  options PartyOption[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted DateTime?
+
+  @@map("parties")
+}
+
+model PartyOption {
+  id           Int
+  name         String
+  price        Decimal @db.Money
+  currencyCode String  @default("KRW") @db.Char(3)
+  soldCount    Int     @default(0)
+  maxCount     Int
+
+  partyId String @db.Uuid
+  party   Party  @relation(fields: [partyId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isDeleted DateTime?
+
+  Ticket Ticket[]
+
+  @@id([partyId, id])
+  @@map("party_options")
+}
+
+model Ticket {
+  id String @id @default(uuid())
+
+  status TicketStatus @default(PENDING)
+
+  userId   String      @db.Uuid
+  user     User        @relation(fields: [userId], references: [id])
+  option   PartyOption @relation(fields: [partyId, optionId], references: [partyId, id])
+  partyId  String      @db.Uuid
+  optionId Int
+
+  paymentInfo   PaymentInfo @relation(fields: [paymentInfoId], references: [id])
+  paymentInfoId BigInt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tickets")
+}
+
+enum TicketStatus {
+  PENDING
+  PAID
+  CANCELED
+  USED
+}
+
+model PaymentInfo {
+  id BigInt @id @default(autoincrement())
+
+  depositorName String @db.VarChar(255)
+  bankName      String @db.VarChar(255)
+
+  tickets Ticket[]
 }
