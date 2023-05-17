@@ -12,34 +12,60 @@
 .cate-mainText {
 	display:flex;
 	align-items:center;
-	font-size:45px;
+	font-size:50px;
 }
 
 .drop-menu {
-	width:185px;
-	height: 200px;
+	width:210px;
+	height: 210px;
 	display:flex;
-	align-items:center;
 	justify-content:center;
-	border: 1px solid #FF69B4;
+	align-items:center;
+	border: 2px solid #FF69B4;
 	padding:5px;
-	margin-top:275px;
-	margin-right:-97px;
+	margin-top:285px;
+	margin-right:-110px;
 	position:absolute;
 	background-color:white;
 	display:none;
+	overflow:hidden;
+	border-radius:10px;
+}
+
+.drop-menu.active {
+	display:flex;
+	animation-name:slide-fade-in-dropdown-animation;
+	animation-duration:0.5s;
+}
+
+@keyframes slide-fade-in-dropdown-animation{
+	0% {
+		margin-top:77px;
+		height: 0;
+	}
+	100% {
+		height:210px;
+	}
 }
 
 .drop-menu li {
-	margin:15px;
-	font-size: 40px;
+	margin:20px;
+	font-size: 35px;
 	cursor:pointer;
+	color:grey;
+}
+
+.drop-menu li:hover {
+	color:black;
 }
 
 .drop-menu-title {
-	margin-left:20px;
+	margin-left:40px;
 	cursor:pointer;
 	color:#FF69B4;
+}
+
+.drop-menu.down{
 }
 
 .cate-List-Text {
@@ -69,8 +95,14 @@
 	color:#FF69B4;
 }
 
+.btn-color {
+	color:grey;
+	font-size:25px;
+}
+
 .btn-color.active {
 	color:#FF69B4;
+	font-weight: 600;
 }
 
 .cate-List-button:visited {
@@ -83,4 +115,45 @@
 	height:50%;
 	border:1px solid black;
 	margin:10px;
+}
+
+
+.List-List {
+	width: 55%;
+	min-width: 1300px;
+	height: 500px;
+	margin:auto;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+.List-in-List {
+	width: 20%;
+	height: 350px;
+	background-color: green;
+	float:left;
+	margin: 25px;
+}
+
+.List-Img {
+	width:100%;
+	height:90%;
+	float:left;
+}
+
+.List-Text {
+	padding:9px;
+	text-align:center;
+	width:100%;
+	height:20%;
+	float:left;
+}
+
+.List-Text p {
+	word-break:break-all;
+	word-wrap:normal;
+}
+
+.List-Intext {
 }

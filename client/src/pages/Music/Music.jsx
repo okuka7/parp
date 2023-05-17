@@ -2,6 +2,7 @@ import React from 'react';
 import '../cate.css'
 import '../List.css'
 import Cate from '../../components/cate';
+import List from '../../components/List';
 export default function Music() {
 	return (
 		<div>
@@ -9,14 +10,18 @@ export default function Music() {
 			<div className="cate-Part">
 				<div className="cate-mainText">
 					<h3>음악</h3>
-					<h3 className="drop-menu-title">전체보기</h3>
+					<h3 className="drop-menu-title" onClick={()=>{
+
+						OpenDrop();
+					}}>전체보기</h3>
 				</div>
 				<div className="drop-menu" onClick={()=>{
+					OpenDrop()
 				}}>
-					<ul>
-						<li>콘서트</li>
-						<li>디제잉</li>
-						<li>버스킹</li>
+					<ul className="list-open-menu">
+						<li>콘 서 트</li>
+						<li>디 제 잉</li>
+						<li>버 스 킹</li>
 					</ul>
 				</div>
 			</div>
@@ -33,6 +38,7 @@ export default function Music() {
 					<p className="btn-color" onClick={changeBtn}>상품명순</p>
 				</div>
 			</div>
+			<List/>
 		</div>
 	)
 }
@@ -48,4 +54,17 @@ function changeBtn(event){
 
 		event.target.classList.add('active');
 	}
+}
+
+function OpenDrop (){
+	const Menu = document.querySelector('.drop-menu-title');
+	const Drop = document.querySelector('.drop-menu');
+
+	document.querySelector('.drop-menu').classList.toggle('active');
+	window.addEventListener('click',function(e){
+		if(Menu.contains(e.target)){
+		}else if(!Menu.contains(e.target)){
+			Drop.classList.remove('active')
+		}
+	})
 }
