@@ -3,6 +3,7 @@ import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ClsModule } from 'nestjs-cls';
 
 @Module({
   imports: [
@@ -11,6 +12,9 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ClsModule.forRoot({
+      global: true,
     }),
   ],
   controllers: [],
