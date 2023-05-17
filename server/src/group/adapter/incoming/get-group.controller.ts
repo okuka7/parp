@@ -1,4 +1,11 @@
-import { Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Res,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { GetGroupQuery } from 'src/group/application/port/incoming/get-group.query';
@@ -14,7 +21,10 @@ export class GetGroupController {
   @ApiResponse({ status: HttpStatus.OK, description: 'Group found' })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Group not found' })
   @Get(':groupId')
-  async getGroup(@Param('groupId') groupId: string, @Res() res: Response) {
+  async getGroup(
+    @Param('groupId', ParseUUIDPipe) groupId: string,
+    @Res() res: Response,
+  ) {
     try {
       const group = await this.getGroupQuery.getGroup(groupId);
       res.status(HttpStatus.OK).json(group);
@@ -29,7 +39,10 @@ export class GetGroupController {
     description: 'Members not found',
   })
   @Get(':groupId/members')
-  async getMembers(@Param('groupId') groupId: string, @Res() res: Response) {
+  async getMembers(
+    @Param('groupId', ParseUUIDPipe) groupId: string,
+    @Res() res: Response,
+  ) {
     try {
       const members = await this.getMemberQuery.getAllMembers(groupId);
       res.status(HttpStatus.OK).json(members);

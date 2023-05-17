@@ -1,6 +1,6 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { patchNestJsSwagger } from 'nestjs-zod';
 import { AppModule } from './app.module';
 import { BasePrismaService } from './common/prisma/base-prisma.service';
 import { initSession } from './lib/session';
@@ -9,10 +9,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   initSession(app);
 
+  app.useGlobalPipes(new ValidationPipe());
+
   const prismaService = app.get(BasePrismaService);
   await prismaService.enableShutdownHooks(app);
 
-  patchNestJsSwagger();
   const config = new DocumentBuilder()
     .setTitle('Parp API')
     .setDescription('Parp API description')
