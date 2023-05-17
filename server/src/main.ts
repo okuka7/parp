@@ -2,14 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { patchNestJsSwagger } from 'nestjs-zod';
 import { AppModule } from './app.module';
-import { PrismaService } from './common/prisma/prisma.service';
+import { BasePrismaService } from './common/prisma/base-prisma.service';
 import { initSession } from './lib/session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   initSession(app);
 
-  const prismaService = app.get(PrismaService);
+  const prismaService = app.get(BasePrismaService);
   await prismaService.enableShutdownHooks(app);
 
   patchNestJsSwagger();
