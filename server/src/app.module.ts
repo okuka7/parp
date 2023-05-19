@@ -6,6 +6,7 @@ import { ClsModule } from 'nestjs-cls';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { ProfileModule } from './app/profile/profile.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -21,6 +22,9 @@ import { ProfileModule } from './app/profile/profile.module';
     }),
     ClsModule.forRoot({
       global: true,
+    }),
+    EventEmitterModule.forRoot({
+      delimiter: '.',
     }),
   ],
   controllers: [],
