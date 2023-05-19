@@ -1,5 +1,5 @@
+import { ExpandProvider } from '@lib/provider';
 import { Module } from '@nestjs/common';
-import { multiProvide } from 'src/lib/multiProvide';
 import { GroupPersistenceAdapter } from './adapter/outgoing/group.persistence.adapter';
 import { MemberPersistenceAdapter } from './adapter/outgoing/member.persistence.adapter';
 import { GET_GROUP_QUERY } from './application/port/incoming/get-group.query';
@@ -17,12 +17,12 @@ import { ManageGroupService } from './application/service/manage-group.service';
 import { ManageMemberService } from './application/service/manage-member.service';
 
 @Module({
-  providers: [
-    ...multiProvide({
+  providers: ExpandProvider([
+    {
       provide: [LOAD_GROUP_PORT, CREATE_GROUP_PORT, UPDATE_GROUP_PORT],
       useClass: GroupPersistenceAdapter,
-    }),
-    ...multiProvide({
+    },
+    {
       provide: [
         LOAD_MEMBER_PORT,
         CREATE_MEMBER_PORT,
@@ -30,7 +30,7 @@ import { ManageMemberService } from './application/service/manage-member.service
         DELETE_MEMBER_PORT,
       ],
       useClass: MemberPersistenceAdapter,
-    }),
+    },
     {
       provide: GET_GROUP_QUERY,
       useClass: GetGroupService,
@@ -43,6 +43,6 @@ import { ManageMemberService } from './application/service/manage-member.service
       provide: MANAGE_MEMBER_USECASE,
       useClass: ManageMemberService,
     },
-  ],
+  ]),
 })
 export class GroupModule {}

@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { v4 } from 'uuid';
 import { AuthRepository } from './auth.repository';
 import { Auth as Auth } from './authentication';
@@ -12,6 +13,7 @@ export class AuthService {
     private readonly passwordRepository: PasswordRepository,
     private readonly authRepository: AuthRepository,
     private readonly userRepository: UserRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   private readonly logger = new Logger(AuthService.name);
@@ -54,7 +56,10 @@ export class AuthService {
       const auth = Auth.create(user, email, phoneNumber);
       this.authRepository.create(auth);
       this.passwordRepository.create(Password.create(userId, password));
-      // TODO: Emit event to notify user registered
+      this.eventEmitter.emit('user.registered', {
+        user,
+        name,
+      });
       this.logger.log(`User ${email} created`);
       return auth;
     } catch (e) {

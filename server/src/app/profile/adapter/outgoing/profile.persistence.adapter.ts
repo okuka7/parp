@@ -1,16 +1,21 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { CreateProfilePort } from '../../application/port/outgoing/create-profile.port';
 import { LoadProfilePort } from '../../application/port/outgoing/load.profile.port';
 import { UpdateProfilePort } from '../../application/port/outgoing/update.profile.port';
 import { Profile } from '../../domain/profile';
 
 export class ProfilePersistenceAdapter
-  implements LoadProfilePort, UpdateProfilePort
+  implements LoadProfilePort, UpdateProfilePort, CreateProfilePort
 {
   constructor(
     @InjectRepository(Profile)
     private readonly profileRepository: EntityRepository<Profile>,
   ) {}
+
+  async createProfile(profile: Profile): Promise<void> {
+    this.profileRepository.create(profile);
+  }
 
   async findProfileById(id: string): Promise<Profile | null> {
     return await this.profileRepository.findOne({ user: id });
