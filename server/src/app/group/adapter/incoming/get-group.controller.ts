@@ -2,20 +2,26 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Inject,
   Param,
   ParseUUIDPipe,
   Res,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { GetGroupQuery } from 'src/group/application/port/incoming/get-group.query';
-import { GetMemberQuery } from 'src/group/application/port/incoming/get-member.query';
-
+import {
+  GetGroupQuery,
+  GET_GROUP_QUERY,
+} from '../../application/port/incoming/get-group.query';
+import {
+  GetMemberQuery,
+  GET_MEMBER_QUERY,
+} from '../../application/port/incoming/get-member.query';
 @Controller('group')
 export class GetGroupController {
   constructor(
-    private readonly getGroupQuery: GetGroupQuery,
-    private readonly getMemberQuery: GetMemberQuery,
+    @Inject(GET_GROUP_QUERY) private readonly getGroupQuery: GetGroupQuery,
+    @Inject(GET_MEMBER_QUERY) private readonly getMemberQuery: GetMemberQuery,
   ) {}
 
   @ApiResponse({ status: HttpStatus.OK, description: 'Group found' })

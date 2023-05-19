@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
-import { User } from 'src/user/domain/user';
 import { AuthRepository } from '../auth.repository';
 
 @Injectable()
@@ -9,17 +8,17 @@ export class LocalSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user: any, done: (err: Error | null, user: any) => void): any {
-    done(null, user.id);
+  serializeUser(auth: any, done: (err: Error | null, auth: any) => void): any {
+    done(null, auth.userId);
   }
 
   async deserializeUser(
-    payload: any,
-    done: (err: Error | null, payload: User | null) => void,
+    payload: string,
+    done: (err: Error | null, payload: string | null) => void,
   ): Promise<any> {
     try {
-      const user = await this.repository.findUserById(payload);
-      done(null, user);
+      const auth = await this.repository.findOneOrFail({ userId: payload });
+      done(null, auth.userId);
     } catch (err) {
       done(err, null);
     }

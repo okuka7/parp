@@ -1,40 +1,24 @@
 import { Member } from './member';
 import { v4 as uuidv4 } from 'uuid';
+import { Entity, ManyToOne, Property } from '@mikro-orm/core';
 
+@Entity()
 export class Group {
-  private id: string;
-  private name: string;
-  private member: Member[];
+  @Property({ type: 'uuid', primary: true })
+  id!: string;
 
-  constructor({
-    id,
-    name,
-    member: member,
-  }: {
-    id: string;
-    name: string;
-    member: Member[];
-  }) {
-    this.id = id;
-    this.name = name;
-    this.member = member;
-  }
+  @Property()
+  name!: string;
+
+  @ManyToOne(() => Member)
+  member: Member[];
 
   public static create(name: string): Group {
-    const id = uuidv4();
-    return new Group({ id, name, member: [] });
-  }
-
-  public getId(): string {
-    return this.id;
-  }
-
-  public getName(): string {
-    return this.name;
-  }
-
-  public getMembers(): Member[] {
-    return this.member;
+    const instance = new Group();
+    instance.id = uuidv4();
+    instance.name = name;
+    instance.member = [];
+    return instance;
   }
 
   public addMember(member: Member): void {
@@ -42,7 +26,7 @@ export class Group {
   }
 
   public removeMember(memberId: string): void {
-    this.member = this.member.filter((m) => m.getId() !== memberId);
+    this.member = this.member.filter((m) => m.user.id !== memberId);
   }
 
   public changeName(name: string): void {

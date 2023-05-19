@@ -1,24 +1,37 @@
 import { Money } from '@common/value';
-import { IsInt, IsString, IsUUID, MinLength, validate } from 'class-validator';
+import {
+  IsArray,
+  IsInt,
+  IsString,
+  IsUUID,
+  MinLength,
+  ValidateNested,
+  validateSync,
+} from 'class-validator';
 
 export class AddOptionCommand {
   @IsUUID('4', { message: 'Party id is not uuid.' })
   readonly partyId: string;
 
+  @IsArray()
+  @ValidateNested({ each: true })
+  readonly options: OptionInfo[];
+
+  constructor(partyId: string, options: OptionInfo[]) {
+    this.partyId = partyId;
+    this.options = options;
+    validateSync(this);
+  }
+}
+
+class OptionInfo {
   @IsString({ message: 'Option name is not string.' })
   @MinLength(1, { message: 'Option name is empty.' })
   readonly name: string;
 
+  @ValidateNested()
   readonly price: Money;
 
   @IsInt({ message: 'Option quantity is not integer.' })
   readonly maxCount: number;
-
-  constructor(partyId: string, name: string, price: Money, maxCount: number) {
-    this.partyId = partyId;
-    this.name = name;
-    this.price = price;
-    this.maxCount = maxCount;
-    validate(this);
-  }
 }

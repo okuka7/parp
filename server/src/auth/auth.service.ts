@@ -1,33 +1,38 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
+import { v4 } from 'uuid';
 import { AuthRepository } from './auth.repository';
+import { Auth as Auth } from './authentication';
+import { Password } from './password';
+import { PasswordRepository } from './password.repository';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly repository: AuthRepository,
-    private readonly config: ConfigService,
+    private readonly passwordRepository: PasswordRepository,
+    private readonly authRepository: AuthRepository,
+    private readonly userRepository: UserRepository,
   ) {}
 
   private readonly logger = new Logger(AuthService.name);
 
-  private hashPassword(password: string) {
-    const round = parseInt(this.config.get('BCRYPT_ROUNDS') as string);
-    return bcrypt.hashSync(password, round);
-  }
-
   async validateUser(email: string, password: string) {
-    const user = await this.repository.findUserByEmail(email);
-    if (!user) {
+    const account = await this.authRepository.findOne({ email });
+    if (!account) {
       return null;
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const originPassword = await this.passwordRepository.findOne({
+      user: account.user,
+    });
+
+    const isMatch = originPassword?.compare(password);
+
     if (!isMatch) {
-      this.logger.log(`Password does not match for user ${email}`);
+      this.logger.log(`Password does not match for account ${email}`);
       return null;
     }
-    return user;
+
+    return account;
   }
 
   async registerUser(
@@ -36,18 +41,25 @@ export class AuthService {
     name: string,
     phoneNumber: string,
   ) {
-    const hashedPassword = this.hashPassword(password);
-    const user = this.repository.createUser(
-      email,
-      hashedPassword,
-      name,
-      phoneNumber,
-    );
-    if (!user) {
+    if (await this.authRepository.isExist(email, phoneNumber)) {
+      this.logger.log(`Account ${email} already exists`);
+      return null;
+    }
+
+    const userId = v4();
+    try {
+      const user = this.userRepository.create({
+        id: userId,
+      });
+      const auth = Auth.create(user, email, phoneNumber);
+      this.authRepository.create(auth);
+      this.passwordRepository.create(Password.create(userId, password));
+      // TODO: Emit event to notify user registered
+      this.logger.log(`User ${email} created`);
+      return auth;
+    } catch (e) {
       this.logger.error(`User ${email} not created`);
       return null;
     }
-    this.logger.log(`User ${email} created`);
-    return user;
   }
 }

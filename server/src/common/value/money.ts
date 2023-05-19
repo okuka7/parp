@@ -1,3 +1,4 @@
+import { Embeddable, Enum, Property } from '@mikro-orm/core';
 import { IsEnum, IsNumber, Min, validateSync } from 'class-validator';
 
 const Currency = {
@@ -7,12 +8,15 @@ const Currency = {
 
 type Currency = (typeof Currency)[keyof typeof Currency];
 
+@Embeddable()
 export class Money {
   @IsNumber({}, { message: 'Money is not number.' })
   @Min(0, { message: 'Money is negative.' })
+  @Property({ type: 'decimal' })
   readonly value: number;
 
   @IsEnum(Currency)
+  @Enum({ items: () => Currency })
   readonly currency: Currency;
 
   constructor(value: number, currency: Currency = 'KRW') {

@@ -1,4 +1,4 @@
-import { Group } from 'src/group/domain/group';
+import { Group } from '../../../domain/group';
 
 export interface UpdateGroupPort {
   updateGroup(group: Group): Promise<void>;

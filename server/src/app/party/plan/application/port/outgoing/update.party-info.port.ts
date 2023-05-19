@@ -1,7 +1,7 @@
-import { Party } from '../../../domain/party';
+import { PartyInfo } from '../../../domain/info';
 
 export const UPDATE_PARTY_INFO_PORT = Symbol('UPDATE_PARTY_INFO_PORT');
 
 export interface UpdatePartyInfoPort {
-  updateParty(party: Party): Promise<void>;
+  updatePartyInfo(party: PartyInfo): Promise<void>;
 }

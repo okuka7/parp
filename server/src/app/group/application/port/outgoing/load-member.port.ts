@@ -1,4 +1,4 @@
-import { Member } from 'src/group/domain/member';
+import { Member } from '../../../domain/member';
 
 export interface LoadMemberPort {
   findMember(groupId: string, memberId: string): Promise<Member>;

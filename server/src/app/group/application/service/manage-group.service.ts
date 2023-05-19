@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Group } from 'src/group/domain/group';
-import { Member, MemberRole } from 'src/group/domain/member';
+import { Group } from '../../domain/group';
+import { Member } from '../../domain/member';
 import { ChangeGroupNameCommand } from '../port/incoming/change-group-name.command';
 import { CreateGroupCommand } from '../port/incoming/create-group.command';
 import { ManageGroupUsecase } from '../port/incoming/manage-group.usecase';
@@ -34,9 +34,7 @@ export class ManageGroupService implements ManageGroupUsecase {
 
   public async createGroup(command: CreateGroupCommand): Promise<void> {
     const group = Group.create(command.name);
-    group.addMember(
-      new Member({ id: command.ownerId, role: MemberRole.OWNER }),
-    );
+    group.addMember(Member.create(command.ownerId, group.id));
     await this.createGroupPort.createGroup(group);
   }
 

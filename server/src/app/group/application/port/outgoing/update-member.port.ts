@@ -1,7 +1,7 @@
-import { Member } from 'src/group/domain/member';
+import { Member } from '../../../domain/member';
 
 export interface UpdateMemberPort {
-  updateMember(groupId: string, member: Member): Promise<void>;
+  updateMember(member: Member): Promise<void>;
 }
 
 export const UPDATE_MEMBER_PORT = Symbol('UPDATE_MEMBER_PORT');

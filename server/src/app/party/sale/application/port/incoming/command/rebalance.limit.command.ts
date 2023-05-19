@@ -1,21 +1,39 @@
-import { validate } from 'uuid';
+import {
+  IsArray,
+  IsInt,
+  IsUUID,
+  Min,
+  ValidateNested,
+  validateOrReject,
+} from 'class-validator';
 
 export class RebalanceLimitCommand {
-  constructor(
-    readonly partyId: string,
-    readonly optionId: number,
-    readonly limit: number,
-  ) {
-    this.validIds();
-    this.validLimit();
-  }
+  @IsUUID(4, { message: 'Party ID must be UUID v4' })
+  readonly partyId: string;
 
-  private validIds(): void {
-    if (validate(this.partyId)) throw new Error('Invalid party id');
-    if (this.optionId < 0) throw new Error('Invalid option id');
-  }
+  @IsArray({ message: 'Options must be array' })
+  @ValidateNested({ each: true })
+  readonly options: Option[];
 
-  private validLimit(): void {
-    if (this.limit < 0) throw new Error('Invalid limit');
+  constructor(partyId: string, options: Option[]) {
+    this.partyId = partyId;
+    this.options = options;
+    validateOrReject(this);
+  }
+}
+
+class Option {
+  @IsInt({ message: 'Option ID must be integer' })
+  @Min(0, { message: 'Option ID must be positive' })
+  readonly optionId: number;
+
+  @IsInt({ message: 'Limit must be integer' })
+  @Min(0, { message: 'Limit must be positive' })
+  readonly limit: number;
+
+  constructor(optionId: number, limit: number) {
+    this.optionId = optionId;
+    this.limit = limit;
+    validateOrReject(this);
   }
 }

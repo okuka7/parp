@@ -1,3 +1,4 @@
+import { EntityManager, FlushMode } from '@mikro-orm/core';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import {
   DiscoveryService,
@@ -6,12 +7,6 @@ import {
   Reflector,
 } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { Prisma } from '@prisma/client';
-import { ClsServiceManager } from 'nestjs-cls';
-import {
-  BasePrismaService,
-  PRISMA_TRANSACTION,
-} from '../prisma/base-prisma.service';
 import { TRANSACTION } from './transaction.decorator';
 
 @Injectable()
@@ -54,25 +49,19 @@ export class DecoratorRegister implements OnModuleInit {
   }
 
   private registPrismaTransaction(method: any) {
-    const prisma = this.moduleRef.get(BasePrismaService, {
-      strict: false,
-    });
+    const em = this.moduleRef.get(EntityManager);
     return async function (...args: any[]) {
-      const cls = ClsServiceManager.getClsService();
-      if (cls.get(PRISMA_TRANSACTION)) {
-        return method.apply(this, args);
-      }
-      return await cls.run(async () => {
-        const result = await prisma
-          .$transaction(async (tx: Prisma.TransactionClient) => {
-            cls.set(PRISMA_TRANSACTION, tx);
-            return await method.apply(this, args);
-          })
-          .finally(() => {
-            cls.set(PRISMA_TRANSACTION, null);
-          });
+      em.setFlushMode(FlushMode.COMMIT);
+      try {
+        em.getContext().begin();
+        const result = await method.apply(this, args);
+        await em.flush();
+        await em.commit();
         return result;
-      });
+      } catch (e) {
+        await em.rollback();
+        throw e;
+      }
     };
   }
 }

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Group } from 'src/group/domain/group';
-import { Member } from 'src/group/domain/member';
+import { Group } from '../../domain/group';
+import { Member } from '../../domain/member';
 import { GetGroupQuery } from '../port/incoming/get-group.query';
 import {
   LoadGroupPort,
@@ -19,7 +19,7 @@ export class GetGroupService implements GetGroupQuery {
   ) {}
 
   public async getGroup(id: string): Promise<Group> {
-    const group = await this.loadGroupPort.findGroupWithMembers(id);
+    const group = await this.loadGroupPort.findGroupWithMember(id);
     if (!group) {
       throw new Error();
     }

@@ -1,29 +1,45 @@
+import { Money } from '@common/value';
+import { Inject } from '@nestjs/common';
 import { PartyOption } from '../../domain/option';
 import { AddOptionUsecase } from '../port/incoming/add.option.usecase';
 import { AddOptionCommand } from '../port/incoming/command/add.option.command';
-import { CreateOptionPort } from '../port/outgoing/create.option.port';
-import { LoadPartyOptionPort } from '../port/outgoing/load.party-option.port';
+import {
+  CreateOptionPort,
+  CREATE_OPTION_PORT,
+} from '../port/outgoing/create.option.port';
+import {
+  LoadSaleInfoPort,
+  LOAD_SALE_INFO_PORT,
+} from '../port/outgoing/load.sale-info.port';
 
 export class AddOptionService implements AddOptionUsecase {
   constructor(
-    private readonly loadOptionPort: LoadPartyOptionPort,
+    @Inject(LOAD_SALE_INFO_PORT)
+    private readonly loadSaleInfoPort: LoadSaleInfoPort,
+    @Inject(CREATE_OPTION_PORT)
     private readonly createOptionPort: CreateOptionPort,
   ) {}
+
   async addOption(command: AddOptionCommand): Promise<void> {
-    if (command.price.value < 1000) {
-      throw new Error('Price must be greater than 1000');
-    }
-
-    const optionId = await this.loadOptionPort.countOption(command.partyId);
-
-    const option = new PartyOption(
+    const party = await this.loadSaleInfoPort.getSaleInfoWithOption(
       command.partyId,
-      optionId,
-      command.name,
-      command.price,
-      command.maxCount,
     );
 
-    await this.createOptionPort.createOption(option);
+    command.options.map(this.validateOption).forEach(party.addOption);
+
+    await Promise.all(
+      party.options.map((option) => this.createOptionPort.createOption(option)),
+    );
+  }
+
+  private validateOption(option: {
+    name: string;
+    price: Money;
+    maxCount: number;
+  }): PartyOption {
+    if (option.price.value < 1000) {
+      throw new Error('Price must be greater than 1000');
+    }
+    return PartyOption.create(option.name, option.price, option.maxCount);
   }
 }

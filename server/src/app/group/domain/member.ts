@@ -1,32 +1,40 @@
+import { User } from '@common/mikro-orm/entity/user.entity';
+import {
+  Entity,
+  Enum,
+  Formula,
+  ManyToOne,
+  OneToMany,
+  Reference,
+} from '@mikro-orm/core';
+import { Group } from './group';
+
+enum MemberRole {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+}
+
+@Entity()
 export class Member {
-  private id: string;
-  private name: string;
-  private role: MemberRole;
+  @ManyToOne(() => User, { primary: true })
+  user!: User;
 
-  constructor({
-    id,
-    name,
-    role,
-  }: {
-    id: string;
-    name?: string;
-    role: MemberRole;
-  }) {
-    this.id = id;
-    this.name = name || '';
-    this.role = role;
-  }
+  @Formula('user_name', { persist: false })
+  name?: string;
 
-  public getId(): string {
-    return this.id;
-  }
+  @Enum({ items: () => MemberRole, default: MemberRole.MEMBER })
+  role!: MemberRole;
 
-  public getRole(): MemberRole {
-    return this.role;
-  }
+  @OneToMany(() => Group, (group) => group.member, { primary: true })
+  group!: Group;
 
-  public getName(): string {
-    return this.name;
+  static create(userId: string, groupId: string): Member {
+    const instance = new Member();
+    instance.user = Reference.createFromPK(User, userId);
+    instance.role = MemberRole.MEMBER;
+    instance.group.id = groupId;
+    return instance;
   }
 
   public promoteToOwner(): void {
@@ -49,11 +57,3 @@ export class Member {
     return this.role === (MemberRole.OWNER || MemberRole.ADMIN);
   }
 }
-
-export const MemberRole = {
-  OWNER: 'OWNER',
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER',
-} as const;
-
-type MemberRole = (typeof MemberRole)[keyof typeof MemberRole];

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { multiProvide } from 'src/lib/multiProvide';
-import { GroupPrismaAdapter } from './adapter/outgoing/group.prisma.adapter';
-import { MemberPrismaAdapter } from './adapter/outgoing/member.prisma.adapter';
+import { GroupPersistenceAdapter } from './adapter/outgoing/group.persistence.adapter';
+import { MemberPersistenceAdapter } from './adapter/outgoing/member.persistence.adapter';
 import { GET_GROUP_QUERY } from './application/port/incoming/get-group.query';
 import { MANAGE_GROUP_USECASE } from './application/port/incoming/manage-group.usecase';
 import { MANAGE_MEMBER_USECASE } from './application/port/incoming/manage-member.usecase';
@@ -20,7 +20,7 @@ import { ManageMemberService } from './application/service/manage-member.service
   providers: [
     ...multiProvide({
       provide: [LOAD_GROUP_PORT, CREATE_GROUP_PORT, UPDATE_GROUP_PORT],
-      useClass: GroupPrismaAdapter,
+      useClass: GroupPersistenceAdapter,
     }),
     ...multiProvide({
       provide: [
@@ -29,7 +29,7 @@ import { ManageMemberService } from './application/service/manage-member.service
         UPDATE_MEMBER_PORT,
         DELETE_MEMBER_PORT,
       ],
-      useClass: MemberPrismaAdapter,
+      useClass: MemberPersistenceAdapter,
     }),
     {
       provide: GET_GROUP_QUERY,

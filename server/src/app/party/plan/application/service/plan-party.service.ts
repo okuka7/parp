@@ -1,57 +1,47 @@
 import { ZonedDateTime } from '@js-joda/core';
-import { PartyInfo } from '@root/party/domain/info';
-import { Party } from '@root/party/domain/party';
-import { v4 as uuidv4 } from 'uuid';
-import { PlanPartyCommand } from '../port/incoming/command/plan-party.command';
-import { PlanPartyUseCase } from '../port/incoming/plan-party.usecase';
-import { CreatePartyPort } from '../port/outgoing/create-party.port';
+import { Inject } from '@nestjs/common';
+import { PartyInfo } from '../../domain/info';
+import { PlanPartyCommand } from '../port/incomming/command/plan-party.command';
+import { PlanPartyUseCase } from '../port/incomming/plan-party.usecase';
+import {
+  CreatePartyPort,
+  CREATE_PARTY_PORT,
+} from '../port/outgoing/create.party.port';
 
 export class PlanPartyService implements PlanPartyUseCase {
-  constructor(private readonly createPartyPort: CreatePartyPort) {}
+  constructor(
+    @Inject(CREATE_PARTY_PORT)
+    private readonly createPartyPort: CreatePartyPort,
+  ) {}
 
-  planParty(command: PlanPartyCommand): Promise<boolean> {
-    const partyInfo = new PartyInfo(
-      command.description,
-      command.notes,
-      command.address,
-      command.date,
-    );
-
-    const party = new Party(
-      uuidv4(),
-      command.name,
-      partyInfo,
-      command.tiketLimit,
-      command.startSaleAt,
-    );
-
-    if (!this.isOpenAfterSale(party)) {
-      throw new Error('Party must be open after sale');
-    }
-
-    if (party.isForSale() && !this.isOpenAfterTomorrow(party)) {
+  async planParty(command: PlanPartyCommand): Promise<boolean> {
+    if (!this.isOpenAfterTomorrow(command.date)) {
       throw new Error('Party must be open after tomorrow');
     }
 
-    if (party.isForSale() && !this.isSaleAfterOneHour(party)) {
-      throw new Error('Party must be open after one hour');
+    if (!this.isOpenBeforeNextYear(command.date)) {
+      throw new Error('Party must be open before next year');
     }
 
-    return this.createPartyPort.createParty(party);
-  }
+    const party = await this.createPartyPort.createParty(command.groupId);
 
-  private isOpenAfterTomorrow(party: Party): boolean {
-    return party.date.isAfter(ZonedDateTime.now().plusDays(1));
-  }
-
-  private isOpenAfterSale(party: Party): boolean {
-    return !!party.startSaleAt && party.date.isAfter(party.startSaleAt);
-  }
-
-  private isSaleAfterOneHour(party: Party): boolean {
-    return (
-      !!party.startSaleAt &&
-      party.startSaleAt.isAfter(ZonedDateTime.now().plusHours(1))
+    const partyInfo = PartyInfo.create(
+      party,
+      command.name,
+      command.description,
+      command.notes,
+      command.location,
+      command.date,
     );
+
+    return this.createPartyPort.createPartyInfo(partyInfo);
+  }
+
+  private isOpenAfterTomorrow(date: ZonedDateTime): boolean {
+    return date.isAfter(ZonedDateTime.now().plusDays(1));
+  }
+
+  private isOpenBeforeNextYear(date: ZonedDateTime): boolean {
+    return date.isBefore(ZonedDateTime.now().plusYears(1));
   }
 }

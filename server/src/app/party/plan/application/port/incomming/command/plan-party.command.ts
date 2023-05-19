@@ -1,10 +1,11 @@
 import { Address } from '@common/value';
 import { ZonedDateTime } from '@js-joda/core';
 import {
-  IsInstance,
   IsString,
+  IsUUID,
   MaxLength,
   MinLength,
+  ValidateNested,
   validateOrReject,
 } from 'class-validator';
 
@@ -20,10 +21,13 @@ export class PlanPartyCommand {
   @IsString({ message: 'Notes is not string.' })
   readonly notes: string;
 
-  @IsInstance(Address, { message: 'Address is not instance of Address.' })
-  readonly address: Address;
+  @ValidateNested()
+  readonly location: Address;
 
   readonly date: ZonedDateTime;
+
+  @IsUUID('4', { message: 'Group id is not uuid v4.' })
+  readonly groupId: string;
 
   constructor(
     name: string,
@@ -35,7 +39,7 @@ export class PlanPartyCommand {
     this.name = name;
     this.description = description;
     this.notes = notes;
-    this.address = address;
+    this.location = address;
     this.date = date;
     validateOrReject(this);
   }

@@ -1,7 +1,9 @@
-import { Party } from '../../../domain/party';
+import { PartyInfo } from '../../../domain/info';
+import { Party } from '../../../../party';
 
 export const CREATE_PARTY_PORT = Symbol('CREATE_PARTY_PORT');
 
 export interface CreatePartyPort {
-  createParty(party: Party): Promise<boolean>;
+  createParty(groupId: string): Promise<Party>;
+  createPartyInfo(partyInfo: PartyInfo): Promise<boolean>;
 }

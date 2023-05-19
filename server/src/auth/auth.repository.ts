@@ -1,48 +1,11 @@
-import { BasePrismaService } from '@common/prisma/base-prisma.service';
+import { EntityRepository } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/user/domain/user';
+import { Auth } from './authentication';
 
 @Injectable()
-export class AuthRepository {
-  constructor(private readonly prisma: BasePrismaService) {}
-
-  async findUserByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
-  }
-
-  async findUserById(id: string): Promise<User> {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    });
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    return new User(
-      user.id,
-      user.email,
-      user.name,
-      user.phoneNumber,
-      user.createdAt,
-    );
-  }
-
-  async createUser(
-    email: string,
-    password: string,
-    name: string,
-    phoneNumber: string,
-  ) {
-    return this.prisma.user.create({
-      data: {
-        email,
-        password,
-        name,
-        phoneNumber,
-      },
-    });
+export class AuthRepository extends EntityRepository<Auth> {
+  async isExist(email: string, phoneNumber: string): Promise<boolean> {
+    const account = await this.findOne({ $or: [{ email }, { phoneNumber }] });
+    return !!account;
   }
 }

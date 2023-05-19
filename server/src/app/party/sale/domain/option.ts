@@ -1,57 +1,60 @@
 import { Money } from '@common/value';
+import {
+  Embedded,
+  Entity,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
+import { SaleInfo } from './sale-info';
 
+@Entity({
+  tableName: 'party_sale_option',
+})
 export class PartyOption {
-  constructor(
-    private _partyId: string,
-    private _id: number,
-    private _name: string,
-    private _price: Money,
-    private _maxCount: number,
-    private _soldCount: number = 0,
-  ) {}
+  @ManyToOne(() => SaleInfo, { primary: true })
+  party!: SaleInfo;
 
-  public get partyId(): string {
-    return this._partyId;
+  @PrimaryKey()
+  id!: number;
+
+  @Property()
+  name!: string;
+
+  @Embedded({ entity: () => Money, prefix: 'price_' })
+  price!: Money;
+
+  @Property()
+  soldCount = 0;
+
+  @Property()
+  maxCount!: number;
+
+  public static create(
+    name: string,
+    price: Money,
+    maxCount: number,
+  ): PartyOption {
+    const instance = new PartyOption();
+    instance.name = name;
+    instance.price = price;
+    instance.maxCount = maxCount;
+    return instance;
   }
 
-  public get id(): number {
-    return this._id;
+  public remainingCount(): number {
+    return this.maxCount - this.soldCount;
   }
 
-  public get name(): string {
-    return this._name;
+  public isSoldOut(): boolean {
+    return this.remainingCount() <= 0;
   }
 
-  public get price(): Money {
-    return this._price;
-  }
-
-  public get soldCount(): number {
-    return this._soldCount;
-  }
-
-  public get maxCount(): number {
-    return this._maxCount;
-  }
-
-  public get isSoldOut(): boolean {
-    return this._soldCount >= this._maxCount;
-  }
-
-  public updateName(name: string) {
-    this._name = name;
-  }
-
-  public changePrice(price: Money) {
-    this._price = price;
-  }
-
-  public rebalance(maxCount: number) {
-    if (maxCount < this._soldCount) {
-      throw new Error(
-        `Cannot rebalance option. max count: ${maxCount} is less than sold count: ${this._soldCount}`,
-      );
+  public rebalance(limit: number): void {
+    if (limit < this.soldCount) {
+      this.soldCount = limit;
+      throw new Error('Cannot rebalance to a lower limit');
     }
-    this._maxCount = maxCount;
+    this.maxCount = limit;
   }
 }

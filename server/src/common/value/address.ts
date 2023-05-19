@@ -1,34 +1,51 @@
+import { Embeddable, Enum, Property } from '@mikro-orm/core';
+import { IsEnum, MinLength, validateOrReject } from 'class-validator';
+
+export const Country = ['KR', 'US', 'JP'] as const;
+export type Country = (typeof Country)[number];
+
+@Embeddable()
 export class Address {
+  @Enum({ items: () => Country })
+  @IsEnum(Country, { message: 'Invalid country' })
+  readonly country: Country = 'KR';
+
+  @Property()
+  @MinLength(3, { message: 'City must be at least 3 characters' })
+  readonly city: string;
+
+  @Property()
+  @MinLength(2, { message: 'District must be at least 3 characters' })
+  readonly district: string;
+
+  @Property()
+  @MinLength(2, { message: 'Street must be at least 3 characters' })
+  readonly street: string;
+
+  @Property()
+  @MinLength(1, { message: 'Number must be at least 1 characters' })
+  readonly number: string;
+
+  @Property()
+  readonly detail: string = '';
+
   constructor(
-    readonly country: string,
-    readonly city: string,
-    readonly district: string,
-    readonly street: string,
-    readonly number: string,
-    readonly detail: string = '',
+    city: string,
+    district: string,
+    street: string,
+    number: string,
+    detail = '',
   ) {
-    this.valid();
+    this.city = city;
+    this.district = district;
+    this.street = street;
+    this.number = number;
+    this.detail = detail;
+    validateOrReject(this);
   }
 
-  private valid(): void {
-    if (this.country.length === 0) {
-      throw new Error('Invalid country');
-    }
-    if (this.city.length === 0) {
-      throw new Error('Invalid city');
-    }
-    if (this.district.length === 0) {
-      throw new Error('Invalid district');
-    }
-    if (this.street.length === 0) {
-      throw new Error('Invalid street');
-    }
-    if (this.number.length === 0) {
-      throw new Error('Invalid number');
-    }
-  }
-
-  public getFullAddress(): string {
+  @Property({ persist: false })
+  get fullAddress(): string {
     return (
       `${this.city} ${this.district} ${this.street} ${this.number}` +
       (this.detail.length > 0 ? ` ${this.detail}` : '')
@@ -36,8 +53,7 @@ export class Address {
   }
 
   public static fromString(stringAddress: string): Address {
-    const [country, city, district, street, number, detail] =
-      stringAddress.split(' ');
-    return new Address(country, city, district, street, number, detail);
+    const [city, district, street, number, detail] = stringAddress.split(' ');
+    return new Address(city, district, street, number, detail);
   }
 }
