@@ -15,7 +15,7 @@ export class ProfileEventAdapter {
   @OnEvent('user.registered')
   handleUserRegisteredEvent(event: any) {
     this.createProfileUseCase.createProfile({
-      user: event.user,
+      userId: event.userId,
       name: event.name,
     });
   }

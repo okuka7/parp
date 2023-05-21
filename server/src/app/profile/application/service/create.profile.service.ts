@@ -14,7 +14,7 @@ export class CreateProfileService implements CreateProfileUseCase {
     private readonly logger: Logger,
   ) {}
   async createProfile(command: CreateProfileCommand): Promise<void> {
-    const profile = Profile.create(command.user, command.name);
+    const profile = Profile.create(command.userId, command.name);
     this.createProfilePort.createProfile(profile).catch((error) => {
       this.logger.error(error);
     });

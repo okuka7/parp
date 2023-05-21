@@ -8,8 +8,8 @@ export enum Role {
 
 @Entity()
 export class Auth {
-  @OneToOne(() => User, { primary: true })
-  user!: User;
+  @OneToOne(() => User, { primary: true, mapToPk: true })
+  userId!: string;
 
   @Property({ unique: true })
   email!: string;
@@ -20,17 +20,17 @@ export class Auth {
   @Enum({ items: () => Role })
   role: Role = Role.USER;
 
-  static create(user: User, email: string, phoneNumber: string): Auth {
+  static create(userId: string, email: string, phoneNumber: string): Auth {
     const instance = new Auth();
-    instance.user = user;
+    instance.userId = userId;
     instance.email = email;
     instance.phoneNumber = phoneNumber;
     return instance;
   }
 
-  static createAdmin(user: User, email: string, phoneNumber: string): Auth {
+  static createAdmin(userId: string, email: string, phoneNumber: string): Auth {
     const instance = new Auth();
-    instance.user = user;
+    instance.userId = userId;
     instance.email = email;
     instance.phoneNumber = phoneNumber;
     instance.role = Role.ADMIN;

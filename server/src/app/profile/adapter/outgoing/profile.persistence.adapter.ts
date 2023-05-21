@@ -18,7 +18,7 @@ export class ProfilePersistenceAdapter
   }
 
   async findProfileById(id: string): Promise<Profile | null> {
-    return await this.profileRepository.findOne({ user: id });
+    return await this.profileRepository.findOne({ userId: id });
   }
 
   async update(user: Profile): Promise<void> {
