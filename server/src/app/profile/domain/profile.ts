@@ -2,8 +2,8 @@ import { User } from '@common/mikro-orm/entity/user.entity';
 import { OneToOne, Property } from '@mikro-orm/core';
 
 export class Profile {
-  @OneToOne(() => User, { primary: true })
-  user!: User;
+  @OneToOne(() => User, { primary: true, mapToPk: true })
+  userId!: string;
 
   @Property()
   name!: string;
@@ -11,9 +11,9 @@ export class Profile {
   @Property({ nullable: true })
   avatar?: string;
 
-  public static create(user: User, name: string) {
+  public static create(userId: string, name: string) {
     const profile = new Profile();
-    profile.user = user;
+    profile.userId = userId;
     profile.name = name;
     return profile;
   }

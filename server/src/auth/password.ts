@@ -1,13 +1,13 @@
 import { User } from '@common/mikro-orm/entity/user.entity';
 import { ZonedDateTimeType } from '@common/mikro-orm/type/js-joda';
 import { ZonedDateTime } from '@js-joda/core';
-import { Entity, OneToOne, Property, Reference } from '@mikro-orm/core';
+import { Entity, OneToOne, Property } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class Password {
-  @OneToOne(() => User, { primary: true })
-  user!: User;
+  @OneToOne(() => User, { primary: true, mapToPk: true })
+  userId!: string;
 
   @Property()
   password!: string;
@@ -17,7 +17,7 @@ export class Password {
 
   static create(userId: string, password: string): Password {
     const instance = new Password();
-    instance.user = Reference.createFromPK(User, userId);
+    instance.userId = userId;
     const salt = bcrypt.genSaltSync();
     instance.password = bcrypt.hashSync(password, salt);
     return instance;

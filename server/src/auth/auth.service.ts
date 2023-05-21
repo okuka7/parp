@@ -24,7 +24,7 @@ export class AuthService {
       return null;
     }
     const originPassword = await this.passwordRepository.findOne({
-      user: account.user,
+      userId: account.userId,
     });
 
     const isMatch = originPassword?.compare(password);
@@ -50,14 +50,14 @@ export class AuthService {
 
     const userId = v4();
     try {
-      const user = this.userRepository.create({
+      this.userRepository.create({
         id: userId,
       });
-      const auth = Auth.create(user, email, phoneNumber);
+      const auth = Auth.create(userId, email, phoneNumber);
       this.authRepository.create(auth);
       this.passwordRepository.create(Password.create(userId, password));
       this.eventEmitter.emit('user.registered', {
-        user,
+        userId,
         name,
       });
       this.logger.log(`User ${email} created`);

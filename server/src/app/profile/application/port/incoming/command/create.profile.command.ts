@@ -1,14 +1,14 @@
-import { User } from '@common/mikro-orm/entity/user.entity';
-import { MinLength, validateSync } from 'class-validator';
+import { IsUUID, MinLength, validateSync } from 'class-validator';
 
 export class CreateProfileCommand {
-  user: User;
+  @IsUUID(4, { message: 'Invalid user id' })
+  userId: string;
 
   @MinLength(3, { message: 'Invalid name' })
   name: string;
 
-  constructor(user: User, name: string) {
-    this.user = user;
+  constructor(user: string, name: string) {
+    this.userId = user;
     this.name = name;
     validateSync(this);
   }
