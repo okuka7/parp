@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Group } from '../../domain/group';
 import { Member } from '../../domain/member';
-import { ChangeGroupNameCommand } from '../port/incoming/change-group-name.command';
-import { CreateGroupCommand } from '../port/incoming/create-group.command';
+import { ChangeGroupNameCommand } from '../port/incoming/command/change.group-name.command';
+import { CreateGroupCommand } from '../port/incoming/command/create.group.command';
 import { ManageGroupUsecase } from '../port/incoming/manage-group.usecase';
 import {
   CreateGroupPort,

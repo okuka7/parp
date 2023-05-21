@@ -1,5 +1,5 @@
-import { ChangeGroupNameCommand } from './change-group-name.command';
-import { CreateGroupCommand } from './create-group.command';
+import { ChangeGroupNameCommand } from './command/change.group-name.command';
+import { CreateGroupCommand } from './command/create.group.command';
 
 export interface ManageGroupUsecase {
   createGroup(command: CreateGroupCommand): Promise<void>;
