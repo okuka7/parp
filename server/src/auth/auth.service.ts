@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { v4 } from 'uuid';
+import { ulid } from 'ulid';
 import { AuthRepository } from './auth.repository';
 import { Auth as Auth } from './authentication';
 import { Password } from './password';
@@ -48,7 +48,7 @@ export class AuthService {
       return null;
     }
 
-    const userId = v4();
+    const userId = ulid();
     try {
       this.userRepository.create({
         id: userId,

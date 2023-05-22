@@ -1,5 +1,5 @@
-import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { CreateProfilePort } from '../../application/port/outgoing/create-profile.port';
 import { LoadProfilePort } from '../../application/port/outgoing/load.profile.port';
 import { UpdateProfilePort } from '../../application/port/outgoing/update.profile.port';

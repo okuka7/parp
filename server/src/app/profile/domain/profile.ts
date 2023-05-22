@@ -2,7 +2,11 @@ import { User } from '@common/mikro-orm/entity/user.entity';
 import { OneToOne, Property } from '@mikro-orm/core';
 
 export class Profile {
+<<<<<<< HEAD
   @OneToOne(() => User, { primary: true, mapToPk: true })
+=======
+  @OneToOne({ type: () => User, primary: true, mapToPk: true })
+>>>>>>> ab0c1db (feat: uuid to ulid)
   userId!: string;
 
   @Property()

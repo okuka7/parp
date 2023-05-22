@@ -1,4 +1,4 @@
-import { EntityRepository } from '@mikro-orm/core';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { CreateGroupPort } from '../../application/port/outgoing/create-group.port';
 import { LoadGroupPort } from '../../application/port/outgoing/load-group.port';
 import { UpdateGroupPort } from '../../application/port/outgoing/update-group.port';

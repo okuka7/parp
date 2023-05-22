@@ -29,7 +29,7 @@ export class OpenSaleService implements OpenSaleUseCase {
 
     const saleInfo = new SaleInfo();
 
-    saleInfo.party = partyInfo.partyId;
+    saleInfo.partyId = partyInfo.partyId;
     saleInfo.ticketLimit = command.ticketLimit;
     saleInfo.saleStart = command.startSaleAt;
 

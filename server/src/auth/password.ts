@@ -1,19 +1,26 @@
-import { User } from '@common/mikro-orm/entity/user.entity';
-import { ZonedDateTimeType } from '@common/mikro-orm/type/js-joda';
 import { ZonedDateTime } from '@js-joda/core';
+<<<<<<< HEAD
 import { Entity, OneToOne, Property } from '@mikro-orm/core';
+=======
+import { UpdatedAt } from '@lib/decorator/db.time.decorator';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+>>>>>>> ab0c1db (feat: uuid to ulid)
 import * as bcrypt from 'bcrypt';
 
-@Entity()
+@Entity({ schema: 'auth' })
 export class Password {
+<<<<<<< HEAD
   @OneToOne(() => User, { primary: true, mapToPk: true })
+=======
+  @PrimaryKey({ length: 26 })
+>>>>>>> ab0c1db (feat: uuid to ulid)
   userId!: string;
 
   @Property()
   password!: string;
 
-  @Property({ type: ZonedDateTimeType, onUpdate: () => ZonedDateTime.now() })
-  updatedAt: ZonedDateTime = ZonedDateTime.now();
+  @UpdatedAt()
+  updatedAt: ZonedDateTime;
 
   static create(userId: string, password: string): Password {
     const instance = new Password();

@@ -1,10 +1,11 @@
 import { Member } from './member';
-import { v4 as uuidv4 } from 'uuid';
 import { Entity, ManyToOne, Property } from '@mikro-orm/core';
+import { PrimaryUlid } from '@lib/decorator/db.ulid.decorator';
+import { ulid } from 'ulid';
 
 @Entity()
 export class Group {
-  @Property({ type: 'uuid', primary: true })
+  @PrimaryUlid()
   id!: string;
 
   @Property()
@@ -15,7 +16,7 @@ export class Group {
 
   public static create(name: string): Group {
     const instance = new Group();
-    instance.id = uuidv4();
+    instance.id = ulid();
     instance.name = name;
     instance.member = [];
     return instance;

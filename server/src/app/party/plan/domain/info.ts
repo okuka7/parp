@@ -1,15 +1,15 @@
-import { ZonedDateTimeType } from '@common/mikro-orm/type/js-joda';
+import { Timestamptz } from '@common/mikro-orm/type/js-joda';
 import { Address } from '@common/value';
 import { ZonedDateTime } from '@js-joda/core';
-import { Embedded, Entity, OneToOne, Property } from '@mikro-orm/core';
-import { Party } from '../../party';
+import { ForeignUlid } from '@lib/decorator/db.ulid.decorator';
+import { Embedded, Entity, Property } from '@mikro-orm/core';
 
 @Entity({
   tableName: 'party_info',
 })
 export class PartyInfo {
-  @OneToOne(() => Party, { primary: true })
-  partyId!: Party;
+  @ForeignUlid()
+  partyId!: string;
 
   @Property()
   name!: string;
@@ -23,11 +23,11 @@ export class PartyInfo {
   @Embedded(() => Address)
   location!: Address;
 
-  @Property({ type: ZonedDateTimeType })
+  @Property({ type: Timestamptz })
   date!: ZonedDateTime;
 
   static create(
-    partyId: Party,
+    partyId: string,
     name: string,
     description: string,
     notes: string,

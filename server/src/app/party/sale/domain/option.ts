@@ -12,8 +12,8 @@ import { SaleInfo } from './sale-info';
   tableName: 'party_sale_option',
 })
 export class PartyOption {
-  @ManyToOne(() => SaleInfo, { primary: true })
-  party!: SaleInfo;
+  @ManyToOne(() => SaleInfo, { primary: true, mapToPk: true })
+  partyId!: string;
 
   @PrimaryKey()
   id!: number;

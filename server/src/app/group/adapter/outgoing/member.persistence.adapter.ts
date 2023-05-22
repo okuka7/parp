@@ -1,4 +1,4 @@
-import { EntityRepository } from '@mikro-orm/core';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { DeleteMemberPort } from '../../application/port/outgoing/delete-member.port';
 import { LoadMemberPort } from '../../application/port/outgoing/load-member.port';
 import { UpdateMemberPort } from '../../application/port/outgoing/update-member.port';
@@ -9,7 +9,7 @@ export class MemberPersistenceAdapter
   implements LoadMemberPort, UpdateMemberPort, DeleteMemberPort
 {
   public async findAllMember(groupId: string): Promise<Member[]> {
-    return await this.find({ group: groupId });
+    return await this.find({ groupId });
   }
 
   public async updateMember(member: Member): Promise<void> {
@@ -17,7 +17,7 @@ export class MemberPersistenceAdapter
   }
 
   public async deleteMember(groupId: string, memberId: string): Promise<void> {
-    await this.nativeDelete({ user: memberId, group: groupId });
+    await this.nativeDelete({ user: memberId, groupId });
   }
 
   public async findMember(id: string): Promise<Member> {

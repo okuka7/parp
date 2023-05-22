@@ -6,7 +6,7 @@ import { GET_GROUP_QUERY } from './application/port/incoming/get-group.query';
 import { MANAGE_GROUP_USECASE } from './application/port/incoming/manage-group.usecase';
 import { MANAGE_MEMBER_USECASE } from './application/port/incoming/manage-member.usecase';
 import { CREATE_GROUP_PORT } from './application/port/outgoing/create-group.port';
-import { CREATE_MEMBER_PORT } from './application/port/outgoing/create-member.port';
+import { CREATE_MEMBER_PORT } from './application/port/outgoing/create.member.port';
 import { DELETE_MEMBER_PORT } from './application/port/outgoing/delete-member.port';
 import { LOAD_GROUP_PORT } from './application/port/outgoing/load-group.port';
 import { LOAD_MEMBER_PORT } from './application/port/outgoing/load-member.port';

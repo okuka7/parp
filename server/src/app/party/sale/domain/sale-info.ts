@@ -1,28 +1,28 @@
-import { ZonedDateTimeType } from '@common/mikro-orm/type/js-joda';
+import { Timestamptz } from '@common/mikro-orm/type/js-joda';
 import { ZonedDateTime } from '@js-joda/core';
-import { Entity, OneToMany, OneToOne, Property } from '@mikro-orm/core';
-import { Party } from '../../party';
+import { ForeignUlid } from '@lib/decorator/db.ulid.decorator';
+import { Entity, OneToMany, Property } from '@mikro-orm/core';
 import { PartyOption } from './option';
 
 @Entity({
   tableName: 'party_sale_info',
 })
 export class SaleInfo {
-  @OneToOne(() => Party, { primary: true })
-  party!: Party;
+  @ForeignUlid()
+  partyId!: string;
 
   @Property()
   ticketLimit!: number;
 
-  @Property({ type: ZonedDateTimeType })
+  @Property({ type: Timestamptz })
   saleStart!: ZonedDateTime;
 
-  @OneToMany(() => PartyOption, (option) => option.party)
+  @OneToMany(() => PartyOption, (option) => option.partyId)
   options!: PartyOption[];
 
   addOption(option: PartyOption): void {
     option.id = this.options.length;
-    option.party = this;
+    option.partyId = this.partyId;
     this.options.push(option);
   }
 

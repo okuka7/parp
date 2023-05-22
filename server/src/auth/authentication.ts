@@ -8,7 +8,11 @@ export enum Role {
 
 @Entity()
 export class Auth {
+<<<<<<< HEAD
   @OneToOne(() => User, { primary: true, mapToPk: true })
+=======
+  @OneToOne(() => User, { primary: true, mapToPk: true, length: 26 })
+>>>>>>> ab0c1db (feat: uuid to ulid)
   userId!: string;
 
   @Property({ unique: true })

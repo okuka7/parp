@@ -1,23 +1,24 @@
-import { ZonedDateTimeType } from '@common/mikro-orm/type/js-joda';
 import { ZonedDateTime } from '@js-joda/core';
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { v4 } from 'uuid';
+import { DeletedAt } from '@lib/decorator/db.time.decorator';
+import { PrimaryUlid } from '@lib/decorator/db.ulid.decorator';
+import { Entity, ManyToOne } from '@mikro-orm/core';
+import { ulid } from 'ulid';
 import { Group } from '../group/domain/group';
 
 @Entity()
 export class Party {
-  @PrimaryKey()
-  id: string = v4();
+  @PrimaryUlid()
+  id: string = ulid();
 
-  @ManyToOne(() => Group)
-  group!: Group;
+  @ManyToOne(() => Group, { mapToPk: true })
+  groupId!: string;
 
-  @Property({ type: ZonedDateTimeType, nullable: true })
+  @DeletedAt()
   deletedAt: ZonedDateTime | null = null;
 
-  static create(group: Group): Party {
+  static create(groupId: string): Party {
     const instance = new Party();
-    instance.group = group;
+    instance.groupId = groupId;
     return instance;
   }
 }

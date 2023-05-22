@@ -1,12 +1,5 @@
 import { User } from '@common/mikro-orm/entity/user.entity';
-import {
-  Entity,
-  Enum,
-  Formula,
-  ManyToOne,
-  OneToMany,
-  Reference,
-} from '@mikro-orm/core';
+import { Entity, Enum, ManyToOne, Reference } from '@mikro-orm/core';
 import { Group } from './group';
 
 enum MemberRole {
@@ -17,23 +10,20 @@ enum MemberRole {
 
 @Entity()
 export class Member {
+  @ManyToOne(() => Group, { primary: true, mapToPk: true })
+  groupId!: string;
+
   @ManyToOne(() => User, { primary: true })
   user!: User;
-
-  @Formula('user_name', { persist: false })
-  name?: string;
 
   @Enum({ items: () => MemberRole, default: MemberRole.MEMBER })
   role!: MemberRole;
 
-  @OneToMany(() => Group, (group) => group.member, { primary: true })
-  group!: Group;
-
   static create(userId: string, groupId: string): Member {
     const instance = new Member();
+    instance.groupId = groupId;
     instance.user = Reference.createFromPK(User, userId);
     instance.role = MemberRole.MEMBER;
-    instance.group.id = groupId;
     return instance;
   }
 

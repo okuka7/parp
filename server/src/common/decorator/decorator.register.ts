@@ -1,3 +1,4 @@
+import { TRANSACTION } from '@lib/decorator/transaction.decorator';
 import { EntityManager, FlushMode } from '@mikro-orm/core';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import {
@@ -7,7 +8,6 @@ import {
   Reflector,
 } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { TRANSACTION } from './transaction.decorator';
 
 @Injectable()
 export class DecoratorRegister implements OnModuleInit {
@@ -53,14 +53,15 @@ export class DecoratorRegister implements OnModuleInit {
     return async function (...args: any[]) {
       em.setFlushMode(FlushMode.COMMIT);
       try {
-        em.getContext().begin();
+        em.begin();
         const result = await method.apply(this, args);
-        await em.flush();
         await em.commit();
         return result;
       } catch (e) {
         await em.rollback();
         throw e;
+      } finally {
+        em.setFlushMode(FlushMode.AUTO);
       }
     };
   }
