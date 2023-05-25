@@ -11,15 +11,15 @@ export class ChangeOptionNameCommand {
   readonly partyId: string;
 
   @IsPositive({ message: 'Option id is not positive.' })
-  readonly optionId: number;
+  readonly optionNo: number;
 
   @IsString({ message: 'Option name is not string.' })
   @MinLength(1, { message: 'Option name is empty.' })
   readonly name: string;
 
-  constructor(partyId: string, optionId: number, name: string) {
+  constructor(partyId: string, optionNo: number, name: string) {
     this.partyId = partyId;
-    this.optionId = optionId;
+    this.optionNo = optionNo;
     this.name = name;
     validate(this);
   }

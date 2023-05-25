@@ -14,26 +14,36 @@ export class UpdateOptionService implements UpdateOptionUseCase {
     private readonly loadSaleInfoPort: LoadSaleInfoPort,
   ) {}
 
-  async updateOptionName(command: ChangeOptionNameCommand): Promise<void> {
-    this.loadSaleInfoPort
-      .getSaleInfoWithOption(command.partyId)
+  async updateOptionName({
+    partyId,
+    optionNo,
+    name,
+  }: ChangeOptionNameCommand): Promise<void> {
+    await this.loadSaleInfoPort
+      .getSaleInfoWithOption(partyId)
       .then((saleInfo) => {
-        saleInfo.getOption(command.optionId).name = command.name;
+        saleInfo.changeOptionName(optionNo, name);
       });
   }
 
-  async changePrice(command: ChangePriceCommand): Promise<void> {
-    this.loadSaleInfoPort
-      .getSaleInfoWithOption(command.partyId)
+  async changePrice({
+    partyId,
+    optionNo,
+    price,
+  }: ChangePriceCommand): Promise<void> {
+    await this.loadSaleInfoPort
+      .getSaleInfoWithOption(partyId)
       .then((saleInfo) => {
-        saleInfo.getOption(command.optionId).changePrice(command.price);
+        saleInfo.changeOptionPrice(optionNo, price);
       });
   }
 
-  async rebalanceLimit(command: RebalanceLimitCommand): Promise<void> {
-    const saleInfo = await this.loadSaleInfoPort.getSaleInfoWithoutOption(
-      command.partyId,
-    );
-    saleInfo.rebalance(command.options);
+  async rebalanceLimit({
+    partyId,
+    options,
+  }: RebalanceLimitCommand): Promise<void> {
+    await this.loadSaleInfoPort
+      .getSaleInfoWithoutOption(partyId)
+      .then((saleInfo) => saleInfo.rebalance(options));
   }
 }

@@ -6,7 +6,7 @@ import {
   IsUUID,
   MinLength,
   ValidateNested,
-  validateSync,
+  validateOrReject,
 } from 'class-validator';
 
 export class AddOptionCommand {
@@ -20,7 +20,7 @@ export class AddOptionCommand {
   constructor(partyId: string, options: OptionInfo[]) {
     this.partyId = partyId;
     this.options = options;
-    validateSync(this);
+    validateOrReject(this);
   }
 }
 

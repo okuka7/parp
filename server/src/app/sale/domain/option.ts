@@ -13,26 +13,26 @@ import { SaleInfo } from './sale-info';
   tableName: 'party_option',
 })
 export class PartyOption {
-  @ManyToOne(() => SaleInfo, { primary: true, mapToPk: true })
-  partyId!: string;
+  @ManyToOne(() => SaleInfo, { primary: true, mapToPk: true, name: 'party_id' })
+  private _partyId!: string;
 
-  @PrimaryKey()
-  optionNo!: number;
+  @PrimaryKey({ name: 'option_no' })
+  private _optionNo!: number;
 
-  @Property()
-  name!: string;
+  @Property({ name: 'name', length: 50 })
+  private _name!: string;
 
   @Embedded({ entity: () => Money, prefix: 'price_' })
-  price!: Money;
+  private _price!: Money;
 
   @Embedded({ entity: () => Policy, prefix: 'policy_' })
-  policy!: Policy;
+  private _policy!: Policy;
 
-  @Property()
-  soldCount = 0;
+  @Property({ name: 'sold_count' })
+  private _soldCount = 0;
 
-  @Property()
-  maxCount!: number;
+  @Property({ name: 'max_count' })
+  private _maxCount!: number;
 
   constructor(
     partyId: string,
@@ -42,78 +42,88 @@ export class PartyOption {
     policy: Policy,
     maxCount: number,
   ) {
-    this.partyId = partyId;
-    this.optionNo = orderNo;
-    this.name = name;
-    this.price = price;
-    this.policy = policy;
-    this.maxCount = maxCount;
+    this._partyId = partyId;
+    this._optionNo = orderNo;
+    this._name = name;
+    this._price = price;
+    this._policy = policy;
+    this._maxCount = maxCount;
     this.validatePrice();
     this.validateMaxCount();
   }
 
-  public isDefault(): boolean {
-    return this.optionNo === 0;
+  get partyId(): string {
+    return this._partyId;
   }
 
-  public isAdditional(): boolean {
-    return this.optionNo !== 0;
+  get optionNo(): number {
+    return this._optionNo;
   }
 
-  public isInheritable(): boolean {
-    return this.isAdditional() && this.policy.isInheritable();
+  get maxCount(): number {
+    return this._maxCount;
   }
 
-  private remainingCount(): number {
-    return this.maxCount - this.soldCount;
+  isDefault(): boolean {
+    return this._optionNo === 0;
   }
 
-  public isSoldOut(): boolean {
+  isAdditional(): boolean {
+    return this._optionNo !== 0;
+  }
+
+  isInheritable(): boolean {
+    return this.isAdditional() && this._policy.isInheritable();
+  }
+
+  remainingCount(): number {
+    return this._maxCount - this._soldCount;
+  }
+
+  isSoldOut(): boolean {
     return this.remainingCount() <= 0;
   }
 
-  public sell(count: number): void {
-    if (count < 0) {
-      throw new Error('Count must be greater than 0');
-    }
+  sell(count: number): void {
     if (this.remainingCount() < count) {
       throw new Error('Sold out');
     }
-    this.soldCount += count;
+    this._soldCount += count;
   }
 
-  public cancel(count: number): void {
-    if (count < 0) {
-      throw new Error('Count must be greater than 0');
-    }
-    if (this.soldCount < count) {
+  cancel(count: number): void {
+    if (this._soldCount < count) {
       throw new Error('Invalid cancel count');
     }
-    this.soldCount -= count;
+    this._soldCount -= count;
   }
 
-  public changeMaxCount(limit: number): void {
-    if (limit < this.soldCount) {
+  changeName(name: string): void {
+    this._name = name;
+  }
+
+  changeMaxCount(limit: number): void {
+    if (limit < this._soldCount) {
       throw new Error('Cannot rebalance to a lower limit');
     }
-    this.maxCount = limit;
+    this._maxCount = limit;
     this.validateMaxCount();
   }
 
-  public changePrice(price: Money): void {
-    this.price = price;
+  changePrice(price: Money): void {
+    this._price = price;
     this.validatePrice();
   }
 
   private validatePrice(): void {
-    if (this.price.cheaperThan(new Money(1000)))
+    if (this._price.cheaperThan(new Money(1000)))
       throw new Error('Price must be greater than 1000');
-    if (this.price.value % 100 !== 0)
+    if (this._price.value % 100 !== 0)
       throw new Error('Price must be multiple of 100');
   }
 
   private validateMaxCount(): void {
-    if (this.maxCount < 10)
+    if (this._maxCount < 10)
       throw new Error('Max count must be greater than 10');
   }
 }

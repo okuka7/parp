@@ -3,40 +3,40 @@ import { ulid } from 'ulid';
 import { PartyOption } from './option';
 import { Policy } from './policy';
 
-const DEFAULT_OPTION_NO = 0;
-const DEFAULT_OPTION_NAME = '기본';
-const DEFAULT_OPTION_PRICE = new Money(1000);
-const DEFAULT_OPTION_POLICY = new Policy();
-const DEFAULT_OPTION_MAX_COUNT = 10;
-
-const generateOption = ({
-  optionNo,
-  name,
-  price,
-  policy,
-  maxCount,
-}: {
-  optionNo?: number;
-  name?: string;
-  price?: Money;
-  policy?: Policy;
-  maxCount?: number;
-}) => {
-  return new PartyOption(
-    ulid(),
-    optionNo ?? DEFAULT_OPTION_NO,
-    name ?? DEFAULT_OPTION_NAME,
-    price ?? DEFAULT_OPTION_PRICE,
-    policy ?? DEFAULT_OPTION_POLICY,
-    maxCount ?? DEFAULT_OPTION_MAX_COUNT,
-  );
-};
-
 describe('Option', () => {
+  const DEFAULT_OPTION_NO = 0;
+  const ADDITIONAL_OPTION_NO = 1;
+  const MINIMUM_PRICE = new Money(1000);
+  const UNIT_PRICE = new Money(100);
+  const MINIMUM_MAX_COUNT = 10;
+
+  const generateOption = ({
+    optionNo,
+    name,
+    price,
+    policy,
+    maxCount,
+  }: {
+    optionNo?: number;
+    name?: string;
+    price?: Money;
+    policy?: Policy;
+    maxCount?: number;
+  }) => {
+    return new PartyOption(
+      ulid(),
+      optionNo ?? 0,
+      name ?? 'party option',
+      price ?? new Money(1000),
+      policy ?? new Policy(),
+      maxCount ?? 10,
+    );
+  };
+
   describe('Price Validation', () => {
     it('should throw error when price is cheeper than rule', () => {
       // given
-      const price = new Money(500);
+      const price = MINIMUM_PRICE.subtract(MINIMUM_PRICE.divide(2));
 
       // when
       const createOption = () => generateOption({ price });
@@ -47,7 +47,7 @@ describe('Option', () => {
 
     it('should throw error when price is illegal value', () => {
       // given
-      const price = new Money(1550);
+      const price = MINIMUM_PRICE.add(UNIT_PRICE.divide(2));
 
       // when
       const createOption = () => generateOption({ price });
@@ -58,7 +58,8 @@ describe('Option', () => {
 
     it('should create an instance when price is legal value', () => {
       // given
-      const price = new Money(1500);
+      const price = MINIMUM_PRICE;
+
       // when
       const option = generateOption({ price });
 
@@ -70,7 +71,7 @@ describe('Option', () => {
   describe('MaxCount Validation', () => {
     it('should throw error when maxCount is lower than rule', () => {
       // given
-      const maxCount = 5;
+      const maxCount = MINIMUM_MAX_COUNT - 1;
 
       // when
       const createOption = () => generateOption({ maxCount });
@@ -81,7 +82,7 @@ describe('Option', () => {
 
     it('should create an instance when maxCount is legal value', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
 
       // when
       const option = generateOption({ maxCount });
@@ -95,7 +96,7 @@ describe('Option', () => {
     describe('isDefault', () => {
       it('should return true when option is default', () => {
         // given
-        const optionNo = 0;
+        const optionNo = DEFAULT_OPTION_NO;
         const option = generateOption({ optionNo });
 
         // when
@@ -107,7 +108,7 @@ describe('Option', () => {
 
       it('should return false when option is not default', () => {
         // given
-        const optionNo = 1;
+        const optionNo = ADDITIONAL_OPTION_NO;
         const option = generateOption({ optionNo });
 
         // when
@@ -121,7 +122,7 @@ describe('Option', () => {
     describe('isAdditional', () => {
       it('should return true when option is additional', () => {
         // given
-        const optionNo = 1;
+        const optionNo = ADDITIONAL_OPTION_NO;
         const option = generateOption({ optionNo });
 
         // when
@@ -133,7 +134,7 @@ describe('Option', () => {
 
       it('should return false when option is not additional', () => {
         // given
-        const optionNo = 0;
+        const optionNo = DEFAULT_OPTION_NO;
         const option = generateOption({ optionNo });
 
         // when
@@ -147,9 +148,9 @@ describe('Option', () => {
     describe('isSoldOut', () => {
       it('should return true when option is soldOut', () => {
         // given
-        const option = generateOption({});
-
-        option.sell(10);
+        const maxCount = MINIMUM_MAX_COUNT;
+        const option = generateOption({ maxCount });
+        option.sell(maxCount);
 
         // when
         const result = option.isSoldOut();
@@ -185,11 +186,11 @@ describe('Option', () => {
 
     it('should throw error when sell count is greater than maxCount', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
       const option = generateOption({ maxCount });
 
       // when
-      const sell = () => option.sell(11);
+      const sell = () => option.sell(MINIMUM_MAX_COUNT + 1);
 
       // then
       expect(sell).toThrowError();
@@ -197,12 +198,12 @@ describe('Option', () => {
 
     it('should throw error when sell count is greater than maxCount - soldCount', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
       const option = generateOption({ maxCount });
-      option.sell(5);
+      option.sell(MINIMUM_MAX_COUNT - 1);
 
       // when
-      const sell = () => option.sell(6);
+      const sell = () => option.sell(2);
 
       // then
       expect(sell).toThrowError();
@@ -210,14 +211,14 @@ describe('Option', () => {
 
     it('should increase soldCount when sell count is legal value', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
       const option = generateOption({ maxCount });
 
       // when
-      option.sell(5);
+      option.sell(maxCount);
 
       // then
-      expect(option.soldCount).toBe(5);
+      expect(option.isSoldOut()).toBeTruthy();
     });
   });
 
@@ -246,12 +247,12 @@ describe('Option', () => {
 
     it('should cancel sold count', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
       const option = generateOption({ maxCount });
-      option.sell(10);
+      option.sell(maxCount);
 
       // when
-      option.cancel(5);
+      option.cancel(1);
 
       // then
       expect(option.isSoldOut()).toBeFalsy();
@@ -261,8 +262,7 @@ describe('Option', () => {
   describe('Change Max Count', () => {
     it('should throw error when max count is lower than 0', () => {
       // given
-      const maxCount = 10;
-      const option = generateOption({ maxCount });
+      const option = generateOption({});
 
       // when
       const changeMaxCount = () => option.changeMaxCount(-1);
@@ -273,12 +273,12 @@ describe('Option', () => {
 
     it('should throw error when max count is lower than sold count', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
       const option = generateOption({ maxCount });
-      option.sell(10);
+      option.sell(maxCount);
 
       // when
-      const changeMaxCount = () => option.changeMaxCount(9);
+      const changeMaxCount = () => option.changeMaxCount(maxCount - 1);
 
       // then
       expect(changeMaxCount).toThrowError();
@@ -286,14 +286,14 @@ describe('Option', () => {
 
     it('should change max count', () => {
       // given
-      const maxCount = 10;
+      const maxCount = MINIMUM_MAX_COUNT;
       const option = generateOption({ maxCount });
 
       // when
-      option.changeMaxCount(11);
+      option.changeMaxCount(maxCount + 1);
 
       // then
-      expect(option.maxCount).toBe(11);
+      expect(option.maxCount).toBe(maxCount + 1);
     });
   });
 });

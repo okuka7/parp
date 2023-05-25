@@ -1,4 +1,6 @@
 import { ZonedDateTime } from '@js-joda/core';
+import { IsFuture } from '@lib/validation/isFuture';
+import { IsZonedDateTime } from '@lib/validation/isZonedDateTime';
 import { IsPositive, IsUUID, validateOrReject } from 'class-validator';
 
 export class OpenSaleCommand {
@@ -8,6 +10,8 @@ export class OpenSaleCommand {
   @IsPositive({ message: 'ticketLimit must be a positive number.' })
   readonly ticketLimit: number;
 
+  @IsZonedDateTime({ message: 'Invalid startSaleAt.' })
+  @IsFuture({ message: 'startSaleAt must be a future date.' })
   readonly startSaleAt: ZonedDateTime;
 
   constructor(

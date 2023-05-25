@@ -1,19 +1,19 @@
 import { ZonedDateTime } from '@js-joda/core';
-import { validate } from 'uuid';
+import { IsFuture } from '@lib/validation/isFuture';
+import { IsUlid } from '@lib/validation/isUlid';
+import { IsZonedDateTime } from '@lib/validation/isZonedDateTime';
+import { validateOrReject } from 'class-validator';
 
 export class ChangeSaleScheduleCommand {
-  constructor(readonly partyId: string, readonly startSaleAt: ZonedDateTime) {
-    this.validIds();
-    this.validStartSaleAt();
-  }
+  @IsUlid()
+  readonly partyId: string;
 
-  private validIds(): void {
-    if (validate(this.partyId)) throw new Error('Invalid party id');
-  }
-
-  private validStartSaleAt(): void {
-    if (this.startSaleAt.isBefore(ZonedDateTime.now())) {
-      throw new Error('Invalid start sale at');
-    }
+  @IsZonedDateTime({ message: 'Invalid startSaleAt.' })
+  @IsFuture({ message: 'startSaleAt must be a future date.' })
+  startSaleAt: ZonedDateTime;
+  constructor(partyId: string, startSaleAt: ZonedDateTime) {
+    this.partyId = partyId;
+    this.startSaleAt = startSaleAt;
+    validateOrReject(this);
   }
 }

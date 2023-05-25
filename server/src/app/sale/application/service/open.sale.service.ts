@@ -25,11 +25,8 @@ export class OpenSaleService implements OpenSaleUseCase {
       throw new Error('Invalid date');
     }
 
-    const saleInfo = new SaleInfo();
-
-    saleInfo.partyId = partyId;
-    saleInfo.saleStartAt = startSaleAt;
-
-    await this.createSaleInfoPort.createSaleInfo(saleInfo);
+    await this.createSaleInfoPort.createSaleInfo(
+      new SaleInfo(partyId, startSaleAt),
+    );
   }
 }

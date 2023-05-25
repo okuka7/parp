@@ -18,17 +18,20 @@ export class ManageSaleService implements ManageSaleUsecase {
     private readonly loadSaleInfoPort: LoadSaleInfoPort,
   ) {}
 
-  async changeSaleSchedule(command: ChangeSaleScheduleCommand): Promise<void> {
-    const partyDate = await this.loadPartyPort.getDateById(command.partyId);
+  async changeSaleSchedule({
+    partyId,
+    startSaleAt,
+  }: ChangeSaleScheduleCommand): Promise<void> {
+    const partyDate = await this.loadPartyPort.getDateById(partyId);
 
-    if (command.startSaleAt.isAfter(partyDate)) {
+    if (startSaleAt.isAfter(partyDate)) {
       throw new Error('Invalid date');
     }
 
-    const saleInfo = await this.loadSaleInfoPort.getSaleInfoWithoutOption(
-      command.partyId,
-    );
-
-    saleInfo.saleStartAt = command.startSaleAt;
+    await this.loadSaleInfoPort
+      .getSaleInfoWithoutOption(partyId)
+      .then((saleInfo) => {
+        saleInfo.changeSaleStartAt(startSaleAt);
+      });
   }
 }
