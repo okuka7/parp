@@ -1,5 +1,7 @@
+import { UserRegisteredEvent } from '@lib/event/user.registered.event';
 import { Controller, Inject } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
+import { CreateProfileCommand } from '../../application/port/incoming/command/create.profile.command';
 import {
   CreateProfileUseCase,
   CREATE_PROFILE_USECASE,
@@ -13,10 +15,9 @@ export class ProfileEventAdapter {
   ) {}
 
   @OnEvent('user.registered')
-  handleUserRegisteredEvent(event: any) {
-    this.createProfileUseCase.createProfile({
-      userId: event.userId,
-      name: event.name,
-    });
+  handleUserRegisteredEvent(event: UserRegisteredEvent) {
+    this.createProfileUseCase.createProfile(
+      new CreateProfileCommand(event.userId, event.name),
+    );
   }
 }

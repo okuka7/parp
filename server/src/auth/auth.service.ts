@@ -1,3 +1,4 @@
+import { UserRegisteredEvent } from '@lib/event/user.registered.event';
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ulid } from 'ulid';
@@ -56,10 +57,10 @@ export class AuthService {
       const auth = Auth.create(userId, email, phoneNumber);
       this.authRepository.create(auth);
       this.passwordRepository.create(Password.create(userId, password));
-      this.eventEmitter.emit('user.registered', {
-        userId,
-        name,
-      });
+      this.eventEmitter.emit(
+        'user.registered',
+        new UserRegisteredEvent(userId, name),
+      );
       this.logger.log(`User ${email} created`);
       return auth;
     } catch (e) {

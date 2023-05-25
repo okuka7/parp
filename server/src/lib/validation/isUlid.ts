@@ -12,7 +12,9 @@ export function isUlid(value: unknown): boolean {
   return typeof value === 'string' && ulidRegex.test(value);
 }
 
-export function IsUlid(validationOptions?: ValidationOptions) {
+export function IsUlid(
+  validationOptions?: ValidationOptions,
+): PropertyDecorator {
   return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isUlid',

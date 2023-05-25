@@ -3,7 +3,9 @@ import { IsZonedDateTime } from '@lib/validation/isZonedDateTime';
 import { Transform, Type } from 'class-transformer';
 import { ValidationOptions } from 'class-validator';
 
-export function ZonedDateTimeProperty(validationOptions?: ValidationOptions) {
+export function ZonedDateTimeProperty(
+  validationOptions?: ValidationOptions,
+): PropertyDecorator {
   return (object: object, propertyName: string) => {
     Transform(
       validationOptions?.each === true

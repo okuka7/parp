@@ -2,8 +2,9 @@ import { ZonedDateTime } from '@js-joda/core';
 import { UpdatedAt } from '@lib/decorator/db.time.decorator';
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
+import { PasswordRepository } from './password.repository';
 
-@Entity({ schema: 'auth' })
+@Entity({ schema: 'auth', customRepository: () => PasswordRepository })
 export class Password {
   @PrimaryKey({ length: 26 })
   userId!: string;

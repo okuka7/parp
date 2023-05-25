@@ -15,7 +15,9 @@ export function isZonedDateTime(value: unknown): boolean {
   );
 }
 
-export function IsZonedDateTime(validationOptions?: ValidationOptions) {
+export function IsZonedDateTime(
+  validationOptions?: ValidationOptions,
+): PropertyDecorator {
   return function (object: object, propertyName: string) {
     registerDecorator({
       name: IS_ZONED_DATE_TIME,
