@@ -1,0 +1,59 @@
+.cateList-part {
+	display:flex;
+	justify-content:center;
+}
+
+.musicCate-List {
+	width:600px;
+	height:55px;
+	display:flex;
+	align-items:center;
+	justify-content:left;
+	position:absolute;
+	margin-top:31px;
+	margin-left:395px;
+	cursor:default;
+	display:none;
+
+}
+
+
+.musicCate-List-List {
+	margin:0 10px;
+	font-size:22px;
+	color:grey;
+	cursor:pointer;
+}
+
+.musicCate-List-List:hover {
+	color:black;
+}
+
+.cateName:hover .musicCate-List {
+	display:flex;
+}
+
+.musicCate-List:hover {
+	display:flex;
+}
+
+.artCate-List {
+	width:600px;
+	height:55px;
+	display:flex;
+	align-items:center;
+	justify-content:left;
+	position:absolute;
+	margin-top:31px;
+	margin-left:430px;
+	cursor:default;
+	display:none;
+}
+
+.cateName:hover .artCate-List {
+	display:flex;
+}
+
+.artCate-List:hover {
+	display:flex;
+}

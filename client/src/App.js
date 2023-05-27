@@ -6,6 +6,7 @@ import Dance from "./pages/Dance/Dance";
 import Act from "./pages/Act/Act";
 import Art from "./pages/Art/Art"
 import Etc from "./pages/Etc/etc";
+import PartyPages from './pages/partyPages/partyPages';
 import Header from './components/Header';
 import Modal from './components/modal';
 import Footer from './components/Footer';
@@ -26,6 +27,7 @@ function App() {
 	  			<Route path="Act" element={<Act/>}/>
 	  			<Route path="art" element={<Art/>}/>
 	  			<Route path="Etc" element={<Etc/>}/>
+	  			<Route path="PartyPages" element={<PartyPages/>}/>
 	  		</Routes>
 	  	</BrowserRouter>
 	  </div>

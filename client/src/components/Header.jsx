@@ -13,12 +13,10 @@ export default function Header() {
 				<h1 onClick= {()=> navigate('/')
 				}>PARP</h1>
 			</div>
-			<div className="searchBar">
-				<input type="search" placeholder="FIND PLANET"/>			
-			</div>
 			<div className="menuRoom">
 				<div className="action">
-					<a href="#"><p>내 행사 파프하기</p></a>
+					<p>파프 둘러보기</p>
+					<p>내 행사 파프하기</p>
 					<div className="menuToggle">
 						<img src={menuToggle} alt='menu toggle' className="toggleImg" onClick={menuOpen}/>
 					</div>

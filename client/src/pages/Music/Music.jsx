@@ -7,24 +7,6 @@ export default function Music() {
 	return (
 		<div>
 			<Cate/>
-			<div className="cate-Part">
-				<div className="cate-mainText">
-					<h3>음악</h3>
-					<h3 className="drop-menu-title" onClick={()=>{
-
-						OpenDrop();
-					}}>전체보기</h3>
-				</div>
-				<div className="drop-menu" onClick={()=>{
-					OpenDrop()
-				}}>
-					<ul className="list-open-menu">
-						<li>콘 서 트</li>
-						<li>디 제 잉</li>
-						<li>버 스 킹</li>
-					</ul>
-				</div>
-			</div>
 			<div className="cate-List-Text">
 				<div className="cate-List-button">
 					<p className="btn-color" onClick={changeBtn}>인기순</p>

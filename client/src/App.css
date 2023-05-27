@@ -24,6 +24,8 @@ ul li {
 .wrapper {
 	height:auto;
 	min-height: calc(100vh - 250px);
+	width:100%;
+	min-width:1300px;
 }
 
 .header {
@@ -63,12 +65,12 @@ ul li {
 }
 
 .container input[type="search"] {
-	width:70%;
+	width:90%;
 	border: none;
 	outline: none;
 	background: none;
-	font-size: 20px;
-	margin-left:20px;
+	font-size: 30px;
+	margin-left:30px;
 }
 
 .header .menuRoom {
@@ -83,11 +85,17 @@ ul li {
 .header .action {
 	display:flex;
 	align-items: center;
+	justify-content:center;
 }
 
 .header .menuRoom p {
-	margin-right:50px;
 	font-size: 20px;
+	cursor:pointer;
+	width:160px;
+}
+
+.header .menuRoom p:hover{
+	font-weight:600;
 }
 
 .header .toggleImg {

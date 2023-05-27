@@ -1,18 +1,37 @@
 .cate-Part {
 	width:55%;
-	height: 200px;
+	height: 150px;
 	min-width:1300px;
 	margin:0 auto;
 	display:flex;
-	align-items:center;
 	justify-content:center;
 	position:relative;
+	margin-top:-20px;
 }
 
 .cate-mainText {
 	display:flex;
+}
+
+.cate-mainText h3 {
+	color:white;
+}
+
+.cateName{
+	width:130px;
+	height:60px;
+	display:flex;
+	justify-content:center;
 	align-items:center;
-	font-size:50px;
+	border-radius:20px;
+	margin:5px 20px;
+	font-size:25px;
+	cursor:pointer;
+	background-color: #eee;
+}
+
+.cateName:hover{
+	background-color:black;
 }
 
 .drop-menu {
@@ -65,23 +84,21 @@
 	color:#FF69B4;
 }
 
-.drop-menu.down{
-}
-
 .cate-List-Text {
 	width:55%;
-	height:50px;
+	height:70px;
 	min-width:1300px;
 	margin:auto;
 	font-size:25px;
 	list-style:none;
 	display:flex;
 	align-items:center;
-	justify-content:center;
+	justify-content:right;
+	margin-bottom:-50px;
 }
 
 .cate-List-button {
-	width:10%;
+	width:6%;
 	height:100%;
 	justify-content:center;
 	display:flex;
@@ -92,16 +109,17 @@
 
 .cate-List-button p:hover,
 .cate-List-button.active{
-	color:#FF69B4;
+	color:black;
+	font-weight:600;
 }
 
 .btn-color {
 	color:grey;
-	font-size:25px;
+	font-size:20px;
 }
 
 .btn-color.active {
-	color:#FF69B4;
+	color:black;
 	font-weight: 600;
 }
 
@@ -112,8 +130,8 @@
 
 .middle-line {
 	width:1px;
-	height:50%;
-	border:1px solid black;
+	height:40%;
+	border:1px solid grey;
 	margin:10px;
 }
 
@@ -153,7 +171,4 @@
 .List-Text p {
 	word-break:break-all;
 	word-wrap:normal;
-}
-
-.List-Intext {
 }
