@@ -7,9 +7,9 @@ export default function DanceCate(){
 	return(
 		<div className="cateList-part">
 			<div className="musicCate-List">
-				<sapn className="musicCate-List-List">전체보기</sapn>
-				<sapn className="musicCate-List-List">퍼포먼스</sapn>
-				<span className="musicCate-List-List">배틀</span>
+				<div className="musicCate-List-List">전체보기</div>
+				<div className="musicCate-List-List">퍼포먼스</div>
+				<div className="musicCate-List-List">배틀</div>
 			</div>
 		</div>	
 	)

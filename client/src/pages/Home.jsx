@@ -19,13 +19,12 @@ export default function Home() {
 				<Swiper
 					className="banner"
 					spaceBetween={50}
-					slidesPreview={3}
 					navigation
 					pagination={{clickable:true}}
 					autoplay={{delay:3000}}
 					breakpoints={{
 						768: {
-							slidesPreview: 7,
+							slidesPreView: 7,
 						},
 					}}
 				>

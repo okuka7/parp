@@ -1,0 +1,52 @@
+.ticketCart {
+	width: 100%;
+	height: 130px;
+	margin :auto;
+	text-align: center;
+	padding: 20px;
+}
+
+.cart-list {
+	width: 100%;
+	height:30px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	margin-top:10px;
+}
+
+.cart-list span {
+	margin:7px;
+
+}
+
+.cartButton {
+	width:25px;
+	height:25px;
+	border:none;
+	font-size: 17px;
+	margin:7px;
+	cursor:pointer;
+}
+
+.cartCloseButton{
+	width:22px;
+	height:22px;
+	border:none;
+	font-size: 13px;
+	margin-left:5px;
+	background-color:white;
+	color:grey;
+	cursor:pointer;
+}
+
+.cartCloseButton:hover {
+	color:red;
+}
+
+.ticket-ticket {
+	width: 600px;
+	height: 100px;
+	margin-top:30px;
+	background-color:yellow;
+}

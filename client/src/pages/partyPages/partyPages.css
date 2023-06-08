@@ -9,7 +9,6 @@
 	margin:0 auto;
 	margin-top:50px;
 	padding:10px;
-	background-color:green;
 	left:50%;
 }
 
@@ -21,7 +20,6 @@
 	align-items:center;
 	float:left;
 	border-right:1px solid black;
-	background-color:blue;
 }
 
 .pagePoster-explain {
@@ -47,7 +45,8 @@
 }
 
 .pagePoster-title p {
-	font-size:60px;
+	font-size:50px;
+	font-weight: 600;
 }
 
 .pagePoster-subtitle {
@@ -69,7 +68,7 @@
 
 .pagePoster-explain-team {
 	width: 80%;
-	height:40px;
+	height:50px;
 	margin:auto;
 	justify-content:center;
 	display:flex;
@@ -77,11 +76,13 @@
 }
 
 .pagePoster-explain-team p {
+	font-size: 20px;
+	font-weight:500;
 }
 
 .pagePoster-explain-day {
 	width:80%;
-	height:40px;
+	height:50px;
 	margin:auto;
 	justify-content:center;
 	display:flex;
@@ -96,12 +97,15 @@
 	align-items:center;
 }
 
+.pagePoster-explain-place span {
+	color:#f84e86;
+}
+
 .pagePoster-ticket {
 	width:50%;
 	float:left;
 	display:flex;
 	justify-content:center;
-	background-color:red;
 }
 
 .ticketBox {
@@ -176,7 +180,6 @@
 	display:flex;
 	justify-content:center;
 	align-items:center;
-	background-color:yellow;
 }
 .ticketing-explain {
 	width:50%;
@@ -186,15 +189,16 @@
 }
 
 .ticketing-Btn {
-	width: 220px;
-	height: 55px;
-	border-radius:20px;
+	width: 300px;
+	height: 60px;
+	border-radius:15px;
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	border:1px solid black;
 	cursor:pointer;
-	background-color:#f069b4;
+	border:2px solid #f84e86;
+	font-weight: 500;
+	transition-duration:0.3s;
 }
 
 .ticketing-Btn:active {
@@ -205,7 +209,7 @@
 }
 
 .ticketing-Btn:hover {
-	background-color:#ff78b4;
+	background-color:#f84e86;
 }
 
 .ticketing-Btn p {
@@ -214,16 +218,14 @@
 
 .ticket-display {
 	width:50%;
-	height:150px;
+	height:130px;
 	float:right;
-	background-color:grey;
 }
 
 .ticketMain {
 	width:55%;
 	min-width:1100px;
-	background-color:purple;
-	height:230px;
+	height:220px;
 	margin:auto;
 }
 
@@ -233,7 +235,6 @@
 	min-width:1100px;
 	height:800px;
 	margin: auto;
-	background-color:green;
 	display:flex;
 	justify-content:center;
 	align-items:center;
@@ -241,9 +242,10 @@
 
 .pageExplain {
 	width:90%;
-	height:90%;
+	height:95%;
 	background-color:white;
 	display:flex;
 	justify-content:center;
 	align-items:center;
+	background-color:#eee;
 }

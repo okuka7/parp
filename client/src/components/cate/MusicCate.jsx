@@ -7,10 +7,10 @@ export default function MusicCate(){
 	return (
 		<div className="cateList-part">
 			<div className="musicCate-List">
-						<span className="musicCate-List-List">전체보기</span>
-						<span className="musicCate-List-List">콘서트</span>
-						<span className="musicCate-List-List">DJ</span>
-						<span className="musicCate-List-List">버스킹</span>
+						<div className="musicCate-List-List">전체보기</div>
+						<div className="musicCate-List-List">콘서트</div>
+						<div className="musicCate-List-List">DJ</div>
+						<div className="musicCate-List-List">버스킹</div>
 			</div>
 		</div>
 	)

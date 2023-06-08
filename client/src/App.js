@@ -11,6 +11,7 @@ import Header from './components/Header';
 import Modal from './components/modal';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import Ticketpay from './pages/ticketing/ticketpay';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
 	  			<Route path="art" element={<Art/>}/>
 	  			<Route path="Etc" element={<Etc/>}/>
 	  			<Route path="PartyPages" element={<PartyPages/>}/>
+	  			<Route path="Ticketpay" element={<Ticketpay/>}/>
 	  		</Routes>
 	  	</BrowserRouter>
 	  </div>

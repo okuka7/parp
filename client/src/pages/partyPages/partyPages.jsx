@@ -1,12 +1,14 @@
 import React from 'react';
 import './partyPages.css';
 import posterImg from '../../images/bluehyp.JPG';
-import Checkbox from '../../components/Checkbox';
+import Cart from '../../components/cart';
+import { addItem } from '../../store.js';
+import { useDispatch } from "react-redux";
 
 
 export default function usePartyPages(){
-	const [ticket,setTicket] = React.useState(false);
-	const [battle,setBattle] = React.useState(false);
+	let dispatch = useDispatch();
+
 	return (
 		<div className="partyPage">
 			<div className="pagePoster-container">
@@ -15,19 +17,19 @@ export default function usePartyPages(){
 				</div>
 				<div className="pagePoster-explain">
 					<div className="pagePoster-title">
-						<p>힙노타이즈</p>
+						<p>BURNING</p>
 					</div>
 					<div className="pagePoster-subtitle">
-						<p>불타는 열정</p>	
+						<p>트로피를 가져갈 학교는 과연??</p>	
 					</div>
 					<div className="pagePoster-explain-team">
-						<p>A miliom RockFace</p>
+						<p>Uprising crew</p>
 					</div>
 					<div className="pagePoster-explain-place">
-						<p>마포구 상상마당</p>
+						<p>서울 동작구 상도로 369 <span>숭실대학교 블루큐브</span></p>
 					</div>
 					<div className="pagePoster-explain-day">
-						<p>2023.04.29 SAT</p>
+						<p>2023.07.22 SAT 13:00</p>
 					</div>
 				</div>
 				<div className="pagePoster-ticket">
@@ -35,19 +37,23 @@ export default function usePartyPages(){
 						<div className="ticketBtn">
 							<h1>Ticket</h1>
 						</div>
-						<div className="ticketBox-ticket">
-							<Checkbox checked={ticket} onChange={setTicket}className="checkBtn"><p>관람</p></Checkbox>
+						<div className="ticketBox-ticket" onClick={()=> {
+								dispatch(addItem({ id : 0 ,name : '관람', count : 1}))
+						}}>
+							<p>관람 : 20000</p>
 						</div>
-						<div className="ticketBox-ticket">
-							<Checkbox checked={battle} onChange={setBattle}><p>배틀</p></Checkbox>
+						<div className="ticketBox-ticket" onClick={()=> {
+
+								dispatch(addItem({ id : 1 ,name : '배틀', count : 1}))
+						}}>
+							<p>배틀 : 25000</p>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div className="ticketMain">
 				<div className="ticket-display">
-					<div>
-					</div>
+					<Cart/>
 				</div>
 				<div className="ticketing-explain">
 				</div>
@@ -59,12 +65,9 @@ export default function usePartyPages(){
 			</div>
 			<div className="pageExplain-container">
 				<div className="pageExplain">
-					설명
+					<p>상세페이지</p>
 				</div>
 			</div>	
 		</div>
-
-
-
 	)
 }
