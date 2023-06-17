@@ -7,6 +7,13 @@ import { addCount,removeCount,deleteItem } from '.././store.js'
 export default function Ticket (){
 	let state = useSelector((state)=>{ return state })
 	let dispatch = useDispatch()
+	const priceSum = () => {
+		let sum = 0;
+		for(let i = 0; i < state.ticket.length; i++){
+			sum += state.ticket[i].price * state.ticket[i].count
+		}
+		return sum;
+	}
 	return (
 		<div>
 			<div className="ticketCart">

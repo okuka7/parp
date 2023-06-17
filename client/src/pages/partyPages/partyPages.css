@@ -183,9 +183,8 @@
 }
 .ticketing-explain {
 	width:50%;
-	height:100px;
+	height:170px;
 	float:left;
-	margin-top:50px;
 }
 
 .ticketing-Btn {
@@ -218,14 +217,53 @@
 
 .ticket-display {
 	width:50%;
-	height:130px;
+	height:90px;
 	float:right;
+}
+
+.totalPrice {
+	height:50px;
+	width:25%;
+	float:right;
+	display:flex;
+	align-items:center;
+}
+
+.totalPrice-in{
+	height:50px;
+	width:40%;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+.totalPrice-explain {
+	height:50px;
+	width:25%;
+	float:right;
+	display:flex;
+	align-items:center;
+	justify-content:right;
+}
+
+.totalPrice-explain p {
+	font-size:20px;
+	margin-right:10px;
+}
+.totalPrice span {
+	font-size:30px;
+	font-weight:600;
+}
+
+.totalPrice p {
+	font-size:25px;
+	color:grey;
 }
 
 .ticketMain {
 	width:55%;
 	min-width:1100px;
-	height:220px;
+	height:230px;
 	margin:auto;
 }
 

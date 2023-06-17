@@ -3,11 +3,19 @@ import './partyPages.css';
 import posterImg from '../../images/bluehyp.JPG';
 import Cart from '../../components/cart';
 import { addItem } from '../../store.js';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 export default function usePartyPages(){
+	let state = useSelector((state)=>{ return state})
 	let dispatch = useDispatch();
+	const totalPrice = () => {
+		let sum = 0;
+		for(let i = 0; i < state.ticket.length; i++){
+				sum += state.ticket[i].price * state.ticket[i].count
+			}
+			return sum;
+	}
 
 	return (
 		<div className="partyPage">
@@ -38,13 +46,13 @@ export default function usePartyPages(){
 							<h1>Ticket</h1>
 						</div>
 						<div className="ticketBox-ticket" onClick={()=> {
-								dispatch(addItem({ id : 0 ,name : '관람', count : 1}))
+								dispatch(addItem({ id : 0 ,name : '관람', count : 1, price : 20000}))
 						}}>
 							<p>관람 : 20000</p>
 						</div>
 						<div className="ticketBox-ticket" onClick={()=> {
 
-								dispatch(addItem({ id : 1 ,name : '배틀', count : 1}))
+								dispatch(addItem({ id : 1 ,name : '배틀', count : 1, price : 25000}))
 						}}>
 							<p>배틀 : 25000</p>
 						</div>
@@ -56,6 +64,14 @@ export default function usePartyPages(){
 					<Cart/>
 				</div>
 				<div className="ticketing-explain">
+				</div>
+				<div className="totalPrice">
+					<div className="totalPrice-in">
+						<span>{totalPrice()} 원</span>
+					</div>
+				</div>
+				<div className="totalPrice-explain">
+					<p>총 결제할 금액</p>
 				</div>
 				<div className="ticketing">
 					<div className="ticketing-Btn">
